@@ -1,0 +1,142 @@
+---
+/**
+ * Shared layout for /terms, /privacy, /disclaimer.
+ *
+ * Reads `legal.<key>` from i18n: title, updated_date, intro, sections[].{h,p}.
+ * The page wrapper (PublicLayout) handles meta + nav + footer.
+ */
+import { t, getNode } from '../i18n';
+
+interface Props {
+  /** i18n key under `legal.*` — e.g. "terms", "privacy", "disclaimer" */
+  legalKey: 'terms' | 'privacy' | 'disclaimer';
+}
+const { legalKey } = Astro.props as Props;
+
+const title = t(`legal.${legalKey}.title`);
+const updated = t(`legal.${legalKey}.updated_date`);
+const intro = t(`legal.${legalKey}.intro`);
+const sections = (getNode(`legal.${legalKey}.sections`) as Array<{ h: string; p: string }>) ?? [];
+const CONTACT_EMAIL = 'service@moatrics.com';
+---
+
+<article class="mx-legal">
+  <div class="mx-container">
+    <a class="mx-legal-back" href="/">
+      <span aria-hidden="true">←</span> {t('legal.back_to_home')}
+    </a>
+
+    <header class="mx-legal-head">
+      <h1 class="mx-legal-title">{title}</h1>
+      <p class="mx-legal-updated">
+        {t('legal.last_updated')}: <time>{updated}</time>
+      </p>
+    </header>
+
+    <p class="mx-legal-intro">{intro}</p>
+
+    <div class="mx-legal-body">
+      {sections.map((s) => (
+        <section class="mx-legal-section">
+          <h2>{s.h}</h2>
+          <p>{s.p}</p>
+        </section>
+      ))}
+    </div>
+
+    <footer class="mx-legal-foot">
+      <p>
+        {t('legal.contact_us_at')}{' '}
+        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+      </p>
+    </footer>
+  </div>
+</article>
+
+<style>
+  .mx-legal { padding: 64px 0 96px 0; }
+
+  .mx-legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mx-font-body);
+    font-size: 0.9rem;
+    color: var(--mx-text-muted);
+    margin-bottom: 28px;
+    min-height: 44px;
+    transition: color 0.18s ease;
+  }
+  .mx-legal-back:hover { color: var(--mx-gold); }
+
+  .mx-legal-head {
+    margin-bottom: 28px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--mx-border);
+  }
+  .mx-legal-title {
+    font-family: var(--mx-font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--mx-text);
+    letter-spacing: -1.2px;
+    margin: 0 0 10px 0;
+    line-height: 1.1;
+  }
+  .mx-legal-updated {
+    font-family: var(--mx-font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 1.4px;
+    color: var(--mx-text-muted);
+    margin: 0;
+  }
+
+  .mx-legal-intro {
+    font-family: var(--mx-font-body);
+    font-size: 1.05rem;
+    color: var(--mx-text-2);
+    line-height: 1.7;
+    margin: 0 0 40px 0;
+    max-width: 760px;
+  }
+
+  .mx-legal-body { max-width: 760px; }
+
+  .mx-legal-section {
+    margin-bottom: 32px;
+  }
+  .mx-legal-section h2 {
+    font-family: var(--mx-font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--mx-gold);
+    margin: 0 0 10px 0;
+    letter-spacing: -0.3px;
+  }
+  .mx-legal-section p {
+    font-family: var(--mx-font-body);
+    font-size: 0.98rem;
+    color: var(--mx-text-2);
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .mx-legal-foot {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid var(--mx-border);
+    max-width: 760px;
+  }
+  .mx-legal-foot p {
+    font-family: var(--mx-font-body);
+    font-size: 0.95rem;
+    color: var(--mx-text-muted);
+    margin: 0;
+  }
+  .mx-legal-foot a {
+    color: var(--mx-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .mx-legal-foot a:hover { color: var(--mx-purple-2); }
+</style>

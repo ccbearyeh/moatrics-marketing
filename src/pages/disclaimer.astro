@@ -1,0 +1,13 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../i18n';
+
+const pageTitle = `${t('legal.disclaimer.page_title')} — Moatrics`;
+const description =
+  'Moatrics is an educational research platform. Nothing on this site is, or should be interpreted as, personalized investment, financial, tax, or legal advice.';
+---
+
+<PublicLayout title={pageTitle} description={description} path="/disclaimer">
+  <LegalPage legalKey="disclaimer" />
+</PublicLayout>

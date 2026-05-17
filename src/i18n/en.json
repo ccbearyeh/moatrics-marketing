@@ -1,0 +1,375 @@
+{
+  "brand": {
+    "name": "Moatrics",
+    "tagline_short": "Value investing intelligence"
+  },
+
+  "lang": {
+    "en": "EN",
+    "zh": "中"
+  },
+
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "how_it_works": "How It Works",
+    "pricing": "Pricing",
+    "contact": "Contact",
+    "signin": "Sign In",
+    "signup": "Get Access",
+    "dashboard": "Dashboard",
+    "logout": "Log Out"
+  },
+
+  "home": {
+    "hero": {
+      "eyebrow": "Invite-only early access",
+      "title": "Invest in Quality Companies. Undervalued.",
+      "subtitle": "The data-driven co-pilot for long-term, value-conscious investors.",
+      "cta_primary": "Request Access",
+      "cta_secondary": "See How It Works"
+    },
+
+    "trust": {
+      "title": "Built around the principles that have outperformed for decades.",
+      "subtitle": "Quality businesses. Durable moats. Margin of safety."
+    },
+
+    "features": {
+      "section_eyebrow": "Capabilities",
+      "section_title": "Built for the Patient Investor",
+      "section_subtitle": "Six lenses to surface businesses worth owning for a decade.",
+      "items": {
+        "moat": {
+          "title": "Moat Intelligence",
+          "desc": "Identify durable competitive advantages with long-term consistency scoring."
+        },
+        "valuation": {
+          "title": "Triangulated Valuation",
+          "desc": "Cap Rate, Margin of Safety, and Payback Period — three lenses on intrinsic value."
+        },
+        "screener": {
+          "title": "Quality Screener",
+          "desc": "Filter the market down to companies that pass strict quality gates."
+        },
+        "watchlist": {
+          "title": "Smart Watchlist",
+          "desc": "Track on-sale opportunities and re-evaluate as fundamentals shift."
+        },
+        "gurus": {
+          "title": "Guru Tracker",
+          "desc": "Follow the moves of the world's most respected value investors."
+        },
+        "journal": {
+          "title": "Trade Journal",
+          "desc": "Log decisions, revisit your thesis, and improve discipline over time."
+        }
+      }
+    },
+
+    "how_it_works": {
+      "section_eyebrow": "Workflow",
+      "section_title": "From Thousands of Tickers to a Short List of Conviction",
+      "section_subtitle": "A repeatable three-step process the great investors actually use.",
+      "steps": {
+        "screen": {
+          "label": "Step 01",
+          "title": "Screen",
+          "desc": "Start with quality. Filter by ROIC, debt levels, growth, and moat strength."
+        },
+        "analyze": {
+          "label": "Step 02",
+          "title": "Analyze",
+          "desc": "Deep dive with our story framework and three independent valuation models."
+        },
+        "decide": {
+          "label": "Step 03",
+          "title": "Decide",
+          "desc": "Wait for the margin of safety. Buy with conviction. Hold for the long term."
+        }
+      }
+    },
+
+    "metrics": {
+      "section_title": "The Numbers That Actually Matter",
+      "items": {
+        "roic": {
+          "label": "ROIC",
+          "desc": "How well management compounds capital"
+        },
+        "debt": {
+          "label": "Debt-to-Earnings",
+          "desc": "Can the business pay off debt within 3 years?"
+        },
+        "growth": {
+          "label": "10-Year Growth",
+          "desc": "Revenue, EPS, free cash flow, and book value trends"
+        },
+        "valuation": {
+          "label": "Margin of Safety",
+          "desc": "Three independent models, one disciplined verdict"
+        }
+      }
+    },
+
+    "pricing_teaser": {
+      "section_eyebrow": "Pricing",
+      "section_title": "Simple, Honest Pricing",
+      "section_subtitle": "Start free. Upgrade when you're ready to go deep.",
+      "billing_monthly": "Monthly",
+      "billing_annually": "Annually · Save 14%",
+      "free": {
+        "name": "Free",
+        "price": "$0",
+        "period": "forever",
+        "tagline": "Get familiar with the framework.",
+        "features": [
+          "Up to 10 stocks on watchlist",
+          "Basic valuation models",
+          "Public guru tracker",
+          "Educational resources"
+        ],
+        "cta": "Request Access"
+      },
+      "pro": {
+        "name": "Pro",
+        "price_monthly": "$29",
+        "price_annually": "$25",
+        "period": "/mo",
+        "billing_note_monthly": "billed monthly",
+        "billing_note_annually": "billed annually · $300/yr (save $48)",
+        "tagline": "Everything you need to invest with conviction.",
+        "features": [
+          "Unlimited watchlist",
+          "Full screener access",
+          "Advanced valuations & analytics",
+          "Trade journal & performance review",
+          "Priority support"
+        ],
+        "cta": "Start Pro"
+      }
+    },
+
+    "cta_banner": {
+      "title": "Ready to invest like the great ones?",
+      "subtitle": "Moatrics is invite-only during early access. Tell us about yourself and we’ll be in touch.",
+      "button": "Request Your Invite"
+    }
+  },
+
+  "footer": {
+    "tagline": "Moatrics — Value investing intelligence.",
+    "sections": {
+      "product": "Product",
+      "company": "Company",
+      "legal": "Legal"
+    },
+    "links": {
+      "features": "Features",
+      "how_it_works": "How It Works",
+      "pricing": "Pricing",
+      "about": "About",
+      "contact": "Contact",
+      "terms": "Terms",
+      "privacy": "Privacy",
+      "disclaimer": "Disclaimer"
+    },
+    "copyright": "© 2026 Moatrics. All rights reserved.",
+    "disclaimer_short": "Moatrics is an educational research platform. Nothing on this site constitutes investment advice. Investing involves risk, including possible loss of principal. Always do your own research.",
+    "made_with": "Built for the patient investor."
+  },
+
+  "auth": {
+    "signin": {
+      "page_title": "Sign In",
+      "title": "Welcome back",
+      "subtitle": "Sign in to your Moatrics account.",
+      "email_label": "Email",
+      "email_placeholder": "you@example.com",
+      "password_label": "Password",
+      "password_placeholder": "Your password",
+      "submit": "Sign In",
+      "submitting": "Signing in...",
+      "remember_me": "Keep me signed in",
+      "forgot_password": "Forgot password?",
+      "no_account": "Don't have an account?",
+      "signup_link": "Get access",
+      "error_invalid": "Invalid email or password.",
+      "error_disabled": "This account has been disabled. Please contact support."
+    },
+    "signup": {
+      "page_title": "Get Access",
+      "title": "Request access",
+      "subtitle": "Moatrics is invite-only during early access. Tell us a bit about yourself and we'll be in touch.",
+      "invite_badge": "Invite-only",
+      "invite_note": "We review every application personally. Approved applicants receive their credentials by email within 1–2 business days.",
+      "email_label": "Email *",
+      "email_placeholder": "you@example.com",
+      "full_name_label": "Full name",
+      "full_name_placeholder": "Jane Doe",
+      "company_label": "Company or affiliation",
+      "company_placeholder": "Optional",
+      "tier_label": "Which plan are you interested in?",
+      "tier_free": "Free",
+      "tier_pro": "Pro",
+      "tier_help": "You can upgrade later. This just tells us what to prepare.",
+      "reason_label": "Why do you want access?",
+      "reason_placeholder": "Tell us about your investing background and what you'd like to use Moatrics for.",
+      "submit": "Request Access",
+      "submitting": "Submitting...",
+      "success_title": "Application received",
+      "success_body": "Thanks — we've recorded your request from {email}. We'll review it and reach out by email within 1–2 business days. No action needed from you in the meantime.",
+      "have_account": "Already a member?",
+      "signin_link": "Sign in",
+      "error_invalid_email": "Please enter a valid email address.",
+      "error_duplicate_pending": "We already have a pending request from this email.",
+      "error_duplicate_approved": "An account for this email is already approved. Please sign in.",
+      "agree_label": "I have read and agree to the [Investment Disclaimer](/disclaimer), [Terms of Service](/terms), and [Privacy Policy](/privacy). *",
+      "agree_help": "Required. Moatrics provides educational research tools, not personalised financial advice — you make every investment decision yourself.",
+      "error_must_agree": "You must agree to the Investment Disclaimer, Terms of Service, and Privacy Policy to continue.",
+      "terms_prefix": "By submitting this request, you agree to our",
+      "terms_link": "Terms",
+      "terms_and": "and",
+      "privacy_link": "Privacy Policy",
+      "terms_suffix": "."
+    },
+    "logout": {
+      "button": "Log Out",
+      "confirm": "Are you sure you want to log out?"
+    }
+  },
+
+  "common": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "close": "Close",
+    "back": "Back",
+    "continue": "Continue",
+    "yes": "Yes",
+    "no": "No",
+    "required": "Required",
+    "optional": "Optional",
+    "error_generic": "Something went wrong. Please try again.",
+    "success_generic": "Done."
+  },
+
+  "legal": {
+    "back_to_home": "Back to home",
+    "last_updated": "Last updated",
+    "contact_us_at": "Questions? Email us at",
+
+    "terms": {
+      "page_title": "Terms of Service",
+      "title": "Terms of Service",
+      "updated_date": "May 16, 2026",
+      "intro": "These Terms of Service (\"Terms\") govern your access to and use of Moatrics (\"the Service\"), an educational research platform operated by Moatrics. By creating an account or otherwise using the Service, you agree to be bound by these Terms.",
+      "sections": [
+        {
+          "h": "1. Eligibility",
+          "p": "You must be at least 18 years old and able to form a legally binding contract to use the Service. Moatrics is currently invite-only during early access and access may be revoked at our discretion."
+        },
+        {
+          "h": "2. Account & Invite Codes",
+          "p": "You are responsible for safeguarding your invite code, login credentials, and any activity that occurs under your account. Invite codes are single-use and non-transferable. Notify us immediately of any unauthorized access."
+        },
+        {
+          "h": "3. Acceptable Use",
+          "p": "You agree not to (a) scrape, mirror, or redistribute Service data; (b) use the Service to provide regulated investment advice to others; (c) attempt to reverse-engineer, disable, or interfere with the Service; or (d) use the Service for any unlawful purpose."
+        },
+        {
+          "h": "4. Subscriptions & Cancellation",
+          "p": "Paid tiers are billed in advance on a monthly or annual basis. You may cancel at any time and your access will continue until the end of the current billing period. Fees already paid are non-refundable except where required by law."
+        },
+        {
+          "h": "5. Intellectual Property",
+          "p": "All content, software, branding, and visual design produced by Moatrics remain our property. You receive a limited, non-exclusive, non-transferable license to use the Service for your personal research purposes only."
+        },
+        {
+          "h": "6. Disclaimers & Limitation of Liability",
+          "p": "The Service is provided \"as is\" without warranties of any kind. Moatrics is an educational research platform and is not a registered investment advisor. To the maximum extent permitted by law, our aggregate liability arising out of or relating to the Service is limited to the fees you paid in the 12 months preceding the claim."
+        },
+        {
+          "h": "7. Changes to These Terms",
+          "p": "We may update these Terms from time to time. Material changes will be communicated via email or in-app notice. Continued use of the Service after changes take effect constitutes acceptance of the new Terms."
+        },
+        {
+          "h": "8. Contact",
+          "p": "If you have questions about these Terms, please reach out at the address below."
+        }
+      ]
+    },
+
+    "privacy": {
+      "page_title": "Privacy Policy",
+      "title": "Privacy Policy",
+      "updated_date": "May 16, 2026",
+      "intro": "This Privacy Policy describes how Moatrics (\"we\", \"us\") collects, uses, and protects your information when you use the Service. We collect only what we need to operate the platform and never sell your data.",
+      "sections": [
+        {
+          "h": "1. Information We Collect",
+          "p": "We collect the email address and password (hashed) you provide at signup, the invite code used to register, and the watchlist, journal entries, and settings you create inside the Service. We also collect minimal access logs (timestamp, IP address) for security and abuse prevention."
+        },
+        {
+          "h": "2. How We Use Your Information",
+          "p": "We use your information to (a) provide and maintain the Service, (b) authenticate you and protect your account, (c) respond to support requests, and (d) communicate important changes such as new features, billing, or policy updates."
+        },
+        {
+          "h": "3. Data Sharing",
+          "p": "We do not sell your personal information. We share data only with infrastructure providers (cloud hosting, email delivery) strictly to operate the Service, and only when legally required to do so. Aggregated, non-identifying analytics may be shared publicly."
+        },
+        {
+          "h": "4. Data Security",
+          "p": "Passwords are stored using industry-standard hashing. Per-user research data is isolated on our servers. No security measure is perfect — please use a strong, unique password and notify us immediately of any suspicious activity."
+        },
+        {
+          "h": "5. Your Rights",
+          "p": "You may request access to, correction of, or deletion of your personal data at any time by emailing us. We will respond within 30 days. Deleting your account permanently removes your watchlist, journal, and account record."
+        },
+        {
+          "h": "6. Cookies",
+          "p": "We use first-party cookies strictly to keep you signed in. We do not use third-party advertising cookies or cross-site tracking on the Service."
+        },
+        {
+          "h": "7. Changes to This Policy",
+          "p": "We may update this Privacy Policy as the Service evolves. Material changes will be communicated by email or in-app notice. The \"Last updated\" date at the top reflects the most recent revision."
+        }
+      ]
+    },
+
+    "disclaimer": {
+      "page_title": "Disclaimer",
+      "title": "Investment Disclaimer",
+      "updated_date": "May 16, 2026",
+      "intro": "Moatrics is an educational research platform. Nothing on this site is, or should be interpreted as, personalized investment, financial, tax, or legal advice. Please read the following carefully before using any data or analysis the Service provides.",
+      "sections": [
+        {
+          "h": "1. Not Investment Advice",
+          "p": "Moatrics does not provide investment advice or recommendations. Our screeners, valuations, scoring, and analyses are educational tools to assist your own research. We are not a registered investment advisor and do not offer brokerage, custodial, or portfolio management services."
+        },
+        {
+          "h": "2. No Guarantees, No Forecasts",
+          "p": "All valuations and projections rely on assumptions about future growth, margins, and discount rates that may prove incorrect. Past performance is not indicative of future results. No metric on the Service guarantees a positive return."
+        },
+        {
+          "h": "3. Risk of Loss",
+          "p": "All investing carries the risk of loss, including total loss of principal. Equity markets are volatile. Concentrated positions and options strategies carry materially elevated risk. Only invest capital you can afford to lose."
+        },
+        {
+          "h": "4. Third-Party Data",
+          "p": "Financial data displayed on the Service is sourced from third-party providers (e.g. Yahoo Finance, SEC filings). We do not warrant the accuracy, completeness, or timeliness of any such data. You should independently verify any data point before acting on it."
+        },
+        {
+          "h": "5. Do Your Own Due Diligence",
+          "p": "Every investment decision should be made on the basis of your own research, your own financial situation, and where appropriate, consultation with a licensed financial professional. The presence of a stock on the Service is not a recommendation to buy, sell, or hold it."
+        },
+        {
+          "h": "6. No Fiduciary Relationship",
+          "p": "Using the Service does not create a fiduciary, advisory, or attorney-client relationship between you and Moatrics."
+        }
+      ]
+    }
+  }
+}

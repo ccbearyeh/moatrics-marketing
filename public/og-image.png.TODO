@@ -1,0 +1,7 @@
+Placeholder marker — the real /og-image.png (1200x630, purple→gold gradient with
+"Moatrics — Invest in Quality Companies. Undervalued." set in Space Grotesk)
+should be exported from Figma and saved as `public/og-image.png` before launch.
+
+PublicLayout.astro references `/og-image.png` in og:image and twitter:image meta
+tags. Until the real file lands, OG previews on Twitter/LinkedIn/Slack will 404
+the image but the page itself renders fine.

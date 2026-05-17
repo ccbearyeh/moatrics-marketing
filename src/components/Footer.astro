@@ -1,0 +1,210 @@
+---
+/**
+ * Site-wide footer.
+ *
+ * Four-column grid on desktop (brand+disclaimer / product / company / legal),
+ * collapses to a single column < 768px. Real `<a>` tags only — no JS.
+ *
+ * Contact email is ALWAYS service@moatrics.com.
+ */
+import { t } from '../i18n';
+
+const APP_BASE = 'https://app.moatrics.com';
+const CONTACT_EMAIL = 'service@moatrics.com';
+
+const productLinks = [
+  { href: '/#features', label: t('footer.links.features') },
+  { href: '/#how-it-works', label: t('footer.links.how_it_works') },
+  { href: '/#pricing', label: t('footer.links.pricing') },
+];
+
+const companyLinks = [
+  { href: `mailto:${CONTACT_EMAIL}`, label: t('footer.links.contact') },
+];
+
+const legalLinks = [
+  { href: '/terms', label: t('footer.links.terms') },
+  { href: '/privacy', label: t('footer.links.privacy') },
+  { href: '/disclaimer', label: t('footer.links.disclaimer') },
+];
+---
+
+<footer class="mx-footer">
+  <div class="mx-container">
+    <div class="mx-footer-grid">
+      <div class="mx-footer-brand">
+        <a href="/" class="mx-footer-logo" aria-label="Moatrics — home">
+          <img
+            src="/moatrics-logo.png"
+            alt=""
+            width="42"
+            height="42"
+            class="mx-footer-logo-img"
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="mx-footer-logo-text">Moatrics</span>
+        </a>
+        <p class="mx-footer-tagline">{t('footer.tagline')}</p>
+        <p class="mx-footer-disclaimer">{t('footer.disclaimer_short')}</p>
+      </div>
+
+      <div class="mx-footer-col">
+        <h3 class="mx-footer-col-title">{t('footer.sections.product')}</h3>
+        <ul role="list" class="mx-footer-list">
+          {productLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+          <li>
+            <a href={`${APP_BASE}/signin`}>{t('nav.signin')}</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="mx-footer-col">
+        <h3 class="mx-footer-col-title">{t('footer.sections.company')}</h3>
+        <ul role="list" class="mx-footer-list">
+          {companyLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="mx-footer-col">
+        <h3 class="mx-footer-col-title">{t('footer.sections.legal')}</h3>
+        <ul role="list" class="mx-footer-list">
+          {legalLinks.map((l) => (
+            <li><a href={l.href}>{l.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mx-footer-bottom">
+      <p class="mx-footer-copyright">{t('footer.copyright')}</p>
+      <p class="mx-footer-made">{t('footer.made_with')}</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .mx-footer {
+    margin-top: 64px;
+    padding: 80px 0 40px 0;
+    border-top: 1px solid var(--mx-border);
+    background:
+      linear-gradient(to bottom, transparent 0%, rgba(13, 7, 25, 0.6) 100%);
+  }
+
+  .mx-footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 56px;
+    margin-bottom: 56px;
+  }
+
+  .mx-footer-brand { max-width: 420px; }
+  .mx-footer-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .mx-footer-logo-img {
+    height: 42px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.22));
+  }
+  .mx-footer-logo-text {
+    font-family: var(--mx-font-display);
+    font-size: 1.35rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 35%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.4px;
+  }
+  .mx-footer-tagline {
+    font-family: var(--mx-font-body);
+    font-size: 0.95rem;
+    color: var(--mx-text-2);
+    margin: 0 0 14px 0;
+  }
+  .mx-footer-disclaimer {
+    font-family: var(--mx-font-body);
+    font-size: 0.82rem;
+    color: var(--mx-text-muted);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .mx-footer-col-title {
+    font-family: var(--mx-font-mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 2.2px;
+    text-transform: uppercase;
+    color: var(--mx-gold);
+    margin: 0 0 18px 0;
+  }
+  .mx-footer-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .mx-footer-list a {
+    font-family: var(--mx-font-body);
+    font-size: 0.92rem;
+    color: var(--mx-text-2);
+    transition: color 0.18s ease;
+    display: inline-block;
+    min-height: 24px;
+  }
+  .mx-footer-list a:hover { color: var(--mx-gold); }
+
+  .mx-footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 28px;
+    border-top: 1px solid var(--mx-border);
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .mx-footer-copyright,
+  .mx-footer-made {
+    margin: 0;
+    font-family: var(--mx-font-body);
+    font-size: 0.82rem;
+    color: var(--mx-text-muted);
+  }
+
+  @media (max-width: 900px) {
+    .mx-footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .mx-footer-brand {
+      grid-column: 1 / -1;
+      max-width: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .mx-footer {
+      padding: 56px 0 32px 0;
+    }
+    .mx-footer-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .mx-footer-bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

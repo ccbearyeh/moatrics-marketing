@@ -1,0 +1,136 @@
+---
+/**
+ * Root layout for the Moatrics marketing site.
+ *
+ * Responsibilities:
+ *   - <head> SEO/OG/Twitter/JSON-LD
+ *   - Font preconnect + stylesheet (Inter / Space Grotesk / JetBrains Mono)
+ *   - Global CSS import (design tokens, glass primitives, container)
+ *   - Sticky Navbar + Footer
+ *
+ * Pages pass `title`, `description`, `path` for canonical/OG URL building.
+ */
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Path-only, leading slash. Used for canonical + og:url. e.g. "/", "/terms". */
+  path?: string;
+  /** Optional OG image (absolute path under /public). Defaults to /og-image.png. */
+  ogImage?: string;
+  /** Optional `noindex` flag for staging / legal-only pages. */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  path = '/',
+  ogImage = '/og-image.png',
+  noindex = false,
+} = Astro.props;
+
+const SITE_URL = 'https://moatrics.com';
+const canonical = new URL(path, SITE_URL).toString();
+const ogImageAbsolute = new URL(ogImage, SITE_URL).toString();
+
+// JSON-LD: Organization schema (rendered once per page; safe to repeat)
+const organizationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Moatrics',
+  url: SITE_URL,
+  logo: new URL('/moatrics-logo.png', SITE_URL).toString(),
+  description:
+    'Moatrics is a data-driven co-pilot for long-term value investors. Quality businesses, durable moats, margin of safety.',
+  email: 'service@moatrics.com',
+  contactPoint: {
+    '@type': 'ContactPoint',
+    email: 'service@moatrics.com',
+    contactType: 'customer support',
+    availableLanguage: ['en'],
+  },
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#07040d" />
+    <meta name="color-scheme" content="dark" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    {/* Open Graph */}
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Moatrics" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageAbsolute} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    {/* Twitter */}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
+    {/* Favicon — reuse the brand logo PNG for now. A purpose-built favicon
+        can ship later without touching this layout. */}
+    <link rel="icon" type="image/png" href="/moatrics-logo.png" />
+    <link rel="apple-touch-icon" href="/moatrics-logo.png" />
+
+    {/* Fonts — preconnect + display=swap for fast paint */}
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(organizationJsonLd)}
+    />
+  </head>
+  <body>
+    <a href="#main" class="mx-skip-link">Skip to content</a>
+    <Navbar />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <style>
+      .mx-skip-link {
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        background: var(--mx-gold);
+        color: #1a0f00;
+        padding: 10px 16px;
+        font-family: var(--mx-font-body);
+        font-weight: 700;
+        border-radius: 0 0 8px 0;
+        z-index: 9999;
+      }
+      .mx-skip-link:focus { left: 0; }
+    </style>
+  </body>
+</html>

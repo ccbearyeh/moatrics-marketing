@@ -1,0 +1,13 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../i18n';
+
+const pageTitle = `${t('legal.terms.page_title')} — Moatrics`;
+const description =
+  'The Terms of Service that govern access to and use of Moatrics, an educational research platform for value investors.';
+---
+
+<PublicLayout title={pageTitle} description={description} path="/terms">
+  <LegalPage legalKey="terms" />
+</PublicLayout>

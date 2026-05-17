@@ -1,0 +1,13 @@
+---
+import PublicLayout from '../layouts/PublicLayout.astro';
+import LegalPage from '../components/LegalPage.astro';
+import { t } from '../i18n';
+
+const pageTitle = `${t('legal.privacy.page_title')} — Moatrics`;
+const description =
+  'How Moatrics collects, uses, and protects your information. We collect only what we need to operate the platform and never sell your data.';
+---
+
+<PublicLayout title={pageTitle} description={description} path="/privacy">
+  <LegalPage legalKey="privacy" />
+</PublicLayout>
