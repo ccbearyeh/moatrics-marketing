@@ -775,11 +775,15 @@ const description =
     max-width: 56ch;
   }
 
-  /* Bento responsive collapse */
+  /* Bento responsive collapse.
+     Tablet (768–1024): hero + secondary stack full-width, but the three
+     small cards stay in a clean row of 3 (span 4 each) to avoid the
+     half-width orphan that span-6 would create. Below 768, everything
+     stacks to a single column. */
   @media (max-width: 1024px) {
     .mx-feature-lg { grid-column: span 12; }
     .mx-feature-md { grid-column: span 12; }
-    .mx-feature-sm { grid-column: span 6; }
+    .mx-feature-sm { grid-column: span 4; }
   }
   @media (max-width: 768px) {
     .mx-bento { gap: 16px; }
