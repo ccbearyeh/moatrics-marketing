@@ -243,3 +243,78 @@ a {
   outline-offset: 2px;
   border-radius: 4px;
 }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   i18n — dual-render visibility swap
+   `<T k="...">` (src/components/T.astro) emits BOTH the EN and ZH copy of
+   every translation key inline, tagged with `data-i18n-lang`. CSS hides the
+   one that doesn't match `<html lang>`. The `lang` attribute is set by an
+   inline <head> script in PublicLayout.astro that reads `moatrics_lang`
+   from cookie BEFORE first paint — so the page never flashes the wrong
+   language and works without JS for the initial language.
+   ───────────────────────────────────────────────────────────────────────── */
+.mx-i18n {
+  /* Base class. Purely a hook for selectors / customisation. */
+}
+
+html[lang='en'] [data-i18n-lang='zh'] { display: none !important; }
+html[lang='zh'] [data-i18n-lang='en'] { display: none !important; }
+
+/* When two inline spans sit next to each other, the hidden one would still
+   leave the active one with a trailing whitespace adjacency in some browsers
+   — these defensive rules keep the active version visually clean. */
+[data-i18n-lang][hidden] { display: none !important; }
+
+/* ─────────────────────────────────────────────────────────────────────────
+   EN / 中 pill toggle (used in Navbar + mobile drawer)
+   Two segmented buttons inside a rounded pill. Active = gold gradient on
+   dark; inactive = transparent with muted text. Touch target ≥ 36px tall,
+   ≥ 44px wide per segment to satisfy mobile a11y.
+   ───────────────────────────────────────────────────────────────────────── */
+.mx-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  padding: 3px;
+  border: 1px solid var(--mx-border-strong);
+  border-radius: 999px;
+  background: rgba(168, 85, 247, 0.05);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.mx-lang-toggle__btn {
+  appearance: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  min-height: 30px;
+  min-width: 44px;
+  padding: 4px 12px;
+  font-family: var(--mx-font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: var(--mx-text-muted);
+  border-radius: 999px;
+  transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+  user-select: none;
+  line-height: 1;
+}
+
+.mx-lang-toggle__btn:hover {
+  color: var(--mx-text);
+}
+
+.mx-lang-toggle__btn[aria-pressed='true'] {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  color: #1a0f00;
+  box-shadow:
+    0 2px 8px rgba(251, 191, 36, 0.32),
+    0 0 0 1px rgba(251, 191, 36, 0.4);
+}
+
+.mx-lang-toggle__btn:focus-visible {
+  outline: 2px solid var(--mx-gold);
+  outline-offset: 2px;
+}
