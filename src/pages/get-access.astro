@@ -910,6 +910,8 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
         });
 
         form.style.display = 'none';
+        const stepbar = document.getElementById('mx-stepbar');
+        if (stepbar) stepbar.style.display = 'none';
         successState.removeAttribute('hidden');
         successState.scrollIntoView({ behavior: 'smooth', block: 'center' });
       } catch (err) {
