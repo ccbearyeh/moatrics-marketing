@@ -242,7 +242,11 @@ const description =
 
         <div class="mx-steps-grid">
           {stepKeys.map((k, i) => (
-            <article class="mx-step mx-glass">
+            <article
+              class="mx-step mx-glass"
+              data-reveal
+              data-reveal-delay={String((i % 3) + 1)}
+            >
               <span class="mx-step-num" aria-hidden="true">
                 {String(i + 1).padStart(2, '0')}
               </span>
