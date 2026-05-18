@@ -1,0 +1,40 @@
+name: Deploy to VM
+
+# Auto-deploy moatrics.com to the Google Compute Engine VM whenever
+# `main` is updated. The VM runs nginx serving /var/www/moatrics-marketing/
+# from the Astro `dist/` build. See DEPLOY.md for the full picture.
+
+on:
+  push:
+    branches: [main]
+    # Skip deploys for changes that don't affect the built site.
+    paths-ignore:
+      - '**/*.md'
+      - '.gitignore'
+      - 'LICENSE'
+  workflow_dispatch:   # allow manual re-deploy from the Actions tab
+
+# Never run two deploys at once; queue them so the latest commit always wins
+# without racing the previous build's rsync.
+concurrency:
+  group: deploy-vm
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: SSH to VM and run deploy.sh
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host:     ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key:      ${{ secrets.DEPLOY_SSH_KEY }}
+          port:     22
+          timeout:  60s
+          command_timeout: 6m
+          script: |
+            set -euo pipefail
+            cd ~/moatrics-marketing
+            ./deploy.sh
