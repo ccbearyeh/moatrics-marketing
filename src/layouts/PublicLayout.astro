@@ -187,6 +187,42 @@ const breadcrumbJsonLd = {
     </main>
     <Footer />
 
+    {/* ── Scroll-reveal observer ──────────────────────────────────────────
+        Toggles `data-reveal-state="in"` on every `[data-reveal]` element as
+        it enters the viewport. Matches the CSS in global.css that fades +
+        slides them up. Honours `prefers-reduced-motion` (no-op there). One
+        IIFE shared across all pages; no framework. */}
+    <script is:inline>
+      (function () {
+        if (typeof window === 'undefined') return;
+        var reduce = window.matchMedia
+          ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+          : false;
+        var els = document.querySelectorAll('[data-reveal]');
+        if (!els.length) return;
+        if (reduce || !('IntersectionObserver' in window)) {
+          els.forEach(function (el) {
+            el.setAttribute('data-reveal-state', 'in');
+          });
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.setAttribute('data-reveal-state', 'in');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
+        );
+        els.forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
+
     <style>
       .mx-skip-link {
         position: absolute;
