@@ -54,6 +54,48 @@ const organizationJsonLd = {
     availableLanguage: ['en'],
   },
 };
+
+// JSON-LD: WebSite — adds site identity + search action affordance.
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Moatrics',
+  alternateName: 'Moatrics — Value investing intelligence',
+  url: SITE_URL,
+  inLanguage: ['en', 'zh-Hant'],
+  publisher: { '@type': 'Organization', name: 'Moatrics', url: SITE_URL },
+};
+
+// JSON-LD: BreadcrumbList — derived from `path`.
+//   "/"            → [Home]
+//   "/terms"       → [Home > Terms]
+//   "/a/b"         → [Home > A > B]
+const segments = (path === '/' ? [] : path.replace(/^\/|\/$/g, '').split('/'))
+  .filter(Boolean);
+const titleCase = (slug: string) =>
+  slug
+    .split('-')
+    .map((w) => (w ? w[0].toUpperCase() + w.slice(1) : w))
+    .join(' ');
+const breadcrumbItems = [
+  {
+    '@type': 'ListItem',
+    position: 1,
+    name: 'Home',
+    item: SITE_URL + '/',
+  },
+  ...segments.map((seg, i) => ({
+    '@type': 'ListItem',
+    position: i + 2,
+    name: titleCase(seg),
+    item: new URL('/' + segments.slice(0, i + 1).join('/'), SITE_URL).toString(),
+  })),
+];
+const breadcrumbJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: breadcrumbItems,
+};
 ---
 
 <!doctype html>
