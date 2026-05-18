@@ -1,0 +1,42 @@
+---
+/**
+ * <T> — Dual-render i18n helper.
+ *
+ * Emits BOTH the English and Chinese versions of a translation key inline.
+ * Visibility is controlled by CSS based on the `<html lang>` attribute,
+ * which is set by an inline script in <head> (zero FOUC) and updated by
+ * the navbar EN/中 toggle.
+ *
+ * Why dual-render (vs. JS-replacement):
+ *   - Zero flash: both languages are in the DOM at first paint.
+ *   - Works without JS for the *initial* language (cookie default = en).
+ *   - Same URL for both languages, per product decision.
+ *
+ * Usage:
+ *   <T k="nav.features" />                  → two <span>s, inline
+ *   <T k="home.hero.title" as="h1" />       → two <h1>s, block-level
+ *   <T k="footer.tagline" as="p" class="x"/>→ two <p>s with class="mx-i18n x"
+ *
+ * Missing keys return the key path itself (visible bug — easy to spot).
+ */
+import { t } from '../i18n';
+
+interface Props {
+  k: string;
+  as?: string;
+  class?: string;
+}
+
+const { k, as = 'span', class: className } = Astro.props;
+const en = t(k, 'en');
+const zh = t(k, 'zh');
+
+// Astro accepts a string as the dynamic tag name when assigned to a
+// capitalized local var — but only certain HTML tags. We cast to `any` to
+// allow arbitrary tag names (h1-h6, p, div, span, a, li, etc).
+const Tag = as as any;
+
+const baseClass = 'mx-i18n';
+const cls = className ? `${baseClass} ${className}` : baseClass;
+---
+<Tag lang="en" data-i18n-lang="en" class={cls}>{en}</Tag><Tag lang="zh" data-i18n-lang="zh" class={cls}>{zh}</Tag>
