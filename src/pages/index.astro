@@ -15,6 +15,7 @@
  * Auth links go to https://app.moatrics.com.
  */
 import PublicLayout from '../layouts/PublicLayout.astro';
+import T from '../components/T.astro';
 import { t, getNode } from '../i18n';
 
 const APP_BASE = 'https://app.moatrics.com';
@@ -23,9 +24,28 @@ const featureKeys = ['moat', 'valuation', 'screener', 'watchlist', 'gurus', 'jou
 const stepKeys = ['screen', 'analyze', 'decide'] as const;
 const metricKeys = ['roic', 'debt', 'growth', 'valuation'] as const;
 
-// Pull Pro feature list from i18n (it's an array of strings)
-const freeFeatures = (getNode('home.pricing_teaser.free.features') as string[]) ?? [];
-const proFeatures = (getNode('home.pricing_teaser.pro.features') as string[]) ?? [];
+// Pricing feature lists — fetched per-language so we can dual-render each item
+// (CSS hides the language sibling that doesn't match `<html lang>`).
+const freeFeaturesEn = (getNode('home.pricing_teaser.free.features', 'en') as string[]) ?? [];
+const freeFeaturesZh = (getNode('home.pricing_teaser.free.features', 'zh') as string[]) ?? [];
+const proFeaturesEn = (getNode('home.pricing_teaser.pro.features', 'en') as string[]) ?? [];
+const proFeaturesZh = (getNode('home.pricing_teaser.pro.features', 'zh') as string[]) ?? [];
+
+// Zip features into [en, zh] pairs (fall back to en if zh missing for a row)
+const freeFeaturePairs = freeFeaturesEn.map((en, i) => [en, freeFeaturesZh[i] ?? en] as const);
+const proFeaturePairs = proFeaturesEn.map((en, i) => [en, proFeaturesZh[i] ?? en] as const);
+
+// Pricing toggle values pre-resolved in both languages — used as data-* on the
+// dual-render siblings so the vanilla JS billing switcher swaps textContent
+// inside whichever language sibling is currently visible.
+const proPriceMonthlyEn = t('home.pricing_teaser.pro.price_monthly', 'en');
+const proPriceMonthlyZh = t('home.pricing_teaser.pro.price_monthly', 'zh');
+const proPriceAnnuallyEn = t('home.pricing_teaser.pro.price_annually', 'en');
+const proPriceAnnuallyZh = t('home.pricing_teaser.pro.price_annually', 'zh');
+const proNoteMonthlyEn = t('home.pricing_teaser.pro.billing_note_monthly', 'en');
+const proNoteMonthlyZh = t('home.pricing_teaser.pro.billing_note_monthly', 'zh');
+const proNoteAnnuallyEn = t('home.pricing_teaser.pro.billing_note_annually', 'en');
+const proNoteAnnuallyZh = t('home.pricing_teaser.pro.billing_note_annually', 'zh');
 
 const title = 'Moatrics — Invest in Quality Companies. Undervalued.';
 const description =
