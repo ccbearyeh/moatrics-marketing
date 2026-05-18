@@ -5,27 +5,34 @@
  * Four-column grid on desktop (brand+disclaimer / product / company / legal),
  * collapses to a single column < 768px. Real `<a>` tags only — no JS.
  *
- * Contact email is ALWAYS service@moatrics.com.
+ * Contact email is ALWAYS service@moatrics.com (CLAUDE.md policy:
+ * NEVER wellgousa).
+ *
+ * All visible copy goes through `<T>` so it dual-renders EN + ZH inline and
+ * CSS swaps visibility based on `<html lang>` (set by the navbar toggle).
  */
-import { t } from '../i18n';
+import T from './T.astro';
 
 const APP_BASE = 'https://app.moatrics.com';
 const CONTACT_EMAIL = 'service@moatrics.com';
 
+// Each entry pairs an href with the dotted-path translation key.
+// <T k={l.k} /> renders both EN + ZH copies inline; the CSS in global.css
+// hides the inactive language version on the fly.
 const productLinks = [
-  { href: '/#features', label: t('footer.links.features') },
-  { href: '/#how-it-works', label: t('footer.links.how_it_works') },
-  { href: '/#pricing', label: t('footer.links.pricing') },
+  { href: '/#features',     k: 'footer.links.features' },
+  { href: '/#how-it-works', k: 'footer.links.how_it_works' },
+  { href: '/#pricing',      k: 'footer.links.pricing' },
 ];
 
 const companyLinks = [
-  { href: `mailto:${CONTACT_EMAIL}`, label: t('footer.links.contact') },
+  { href: `mailto:${CONTACT_EMAIL}`, k: 'footer.links.contact' },
 ];
 
 const legalLinks = [
-  { href: '/terms', label: t('footer.links.terms') },
-  { href: '/privacy', label: t('footer.links.privacy') },
-  { href: '/disclaimer', label: t('footer.links.disclaimer') },
+  { href: '/terms',      k: 'footer.links.terms' },
+  { href: '/privacy',    k: 'footer.links.privacy' },
+  { href: '/disclaimer', k: 'footer.links.disclaimer' },
 ];
 ---
 
@@ -45,44 +52,44 @@ const legalLinks = [
           />
           <span class="mx-footer-logo-text">Moatrics</span>
         </a>
-        <p class="mx-footer-tagline">{t('footer.tagline')}</p>
-        <p class="mx-footer-disclaimer">{t('footer.disclaimer_short')}</p>
+        <T k="footer.tagline" as="p" class="mx-footer-tagline" />
+        <T k="footer.disclaimer_short" as="p" class="mx-footer-disclaimer" />
       </div>
 
       <div class="mx-footer-col">
-        <h3 class="mx-footer-col-title">{t('footer.sections.product')}</h3>
+        <T k="footer.sections.product" as="h3" class="mx-footer-col-title" />
         <ul role="list" class="mx-footer-list">
           {productLinks.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
+            <li><a href={l.href}><T k={l.k} /></a></li>
           ))}
           <li>
-            <a href={`${APP_BASE}/signin`}>{t('nav.signin')}</a>
+            <a href={`${APP_BASE}/signin`}><T k="nav.signin" /></a>
           </li>
         </ul>
       </div>
 
       <div class="mx-footer-col">
-        <h3 class="mx-footer-col-title">{t('footer.sections.company')}</h3>
+        <T k="footer.sections.company" as="h3" class="mx-footer-col-title" />
         <ul role="list" class="mx-footer-list">
           {companyLinks.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
+            <li><a href={l.href}><T k={l.k} /></a></li>
           ))}
         </ul>
       </div>
 
       <div class="mx-footer-col">
-        <h3 class="mx-footer-col-title">{t('footer.sections.legal')}</h3>
+        <T k="footer.sections.legal" as="h3" class="mx-footer-col-title" />
         <ul role="list" class="mx-footer-list">
           {legalLinks.map((l) => (
-            <li><a href={l.href}>{l.label}</a></li>
+            <li><a href={l.href}><T k={l.k} /></a></li>
           ))}
         </ul>
       </div>
     </div>
 
     <div class="mx-footer-bottom">
-      <p class="mx-footer-copyright">{t('footer.copyright')}</p>
-      <p class="mx-footer-made">{t('footer.made_with')}</p>
+      <T k="footer.copyright" as="p" class="mx-footer-copyright" />
+      <T k="footer.made_with" as="p" class="mx-footer-made" />
     </div>
   </div>
 </footer>
