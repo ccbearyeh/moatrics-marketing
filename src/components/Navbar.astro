@@ -172,7 +172,7 @@ const navLinks = [
     display: flex;
     align-items: center;
     gap: 22px;
-    padding: 10px 22px;
+    padding: 8px 18px;
     background: var(--mx-glass-bg-strong);
     backdrop-filter: var(--mx-glass-blur);
     -webkit-backdrop-filter: var(--mx-glass-blur);
@@ -182,7 +182,20 @@ const navLinks = [
       0 8px 32px rgba(0, 0, 0, 0.45),
       0 0 60px rgba(168, 85, 247, 0.04),
       inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    transition: padding 0.22s ease, border-color 0.22s ease,
+      box-shadow 0.22s ease, background 0.22s ease;
   }
+  /* Scrolled state — tighter pill, slightly stronger border */
+  .mx-navbar-wrap[data-scrolled='true'] .mx-navbar {
+    padding: 6px 16px;
+    border-color: rgba(168, 85, 247, 0.26);
+    background: rgba(7, 4, 13, 0.92);
+    box-shadow:
+      0 12px 36px rgba(0, 0, 0, 0.55),
+      0 0 60px rgba(168, 85, 247, 0.06),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+  .mx-navbar-wrap[data-scrolled='true'] .mx-logo { height: 38px; }
 
   .mx-brand {
     display: inline-flex;
