@@ -26,13 +26,43 @@
       "eyebrow": "Invite-only early access",
       "title": "Invest in Quality Companies. Undervalued.",
       "subtitle": "The data-driven co-pilot for long-term, value-conscious investors.",
+      "trust_line": "Built on the framework Phil Town teaches — modernized with live data.",
       "cta_primary": "Request Access",
-      "cta_secondary": "See How It Works"
+      "cta_secondary": "See How It Works",
+      "kpi": {
+        "roic": {
+          "value": "≥ 10%",
+          "label": "ROIC threshold"
+        },
+        "debt": {
+          "value": "< 3 yrs",
+          "label": "Debt payback"
+        },
+        "mos": {
+          "value": "≥ 50%",
+          "label": "Margin of safety"
+        }
+      }
     },
 
     "trust": {
+      "eyebrow": "Why Moatrics",
       "title": "Built around the principles that have outperformed for decades.",
-      "subtitle": "Quality businesses. Durable moats. Margin of safety."
+      "subtitle": "Quality businesses. Durable moats. Margin of safety.",
+      "cards": {
+        "focus": {
+          "title": "Focused on quality",
+          "desc": "We filter out 95% of the market so you can spend your time on the few businesses that actually compound."
+        },
+        "discipline": {
+          "title": "Disciplined by design",
+          "desc": "Three independent valuation models force you to be conservative — and stop overpaying."
+        },
+        "transparency": {
+          "title": "Transparent by default",
+          "desc": "Every number on the screen traces back to a public filing. No black boxes, no proprietary scores."
+        }
+      }
     },
 
     "features": {
@@ -151,10 +181,51 @@
       }
     },
 
+    "preview": {
+      "section_eyebrow": "Inside Moatrics",
+      "section_title": "Your research, all in one place.",
+      "section_subtitle": "Screen, value, and track quality businesses in a single workspace built for long-term investors.",
+      "caption_title": "Stock Analysis · Live",
+      "caption_subtitle": "Story · Moat · Valuation triangulation"
+    },
+
+    "faq": {
+      "section_eyebrow": "FAQ",
+      "section_title": "Common Questions",
+      "section_subtitle": "If something isn't covered here, email us at service@moatrics.com.",
+      "items": {
+        "what_is": {
+          "q": "What is Moatrics?",
+          "a": "Moatrics is a research workspace for long-term, value-oriented investors. It applies Rule 1 / Phil Town style quality checks — ROIC, debt, moat strength, and growth — on top of live financial data, so you can spend your time on the few businesses that actually compound."
+        },
+        "who_for": {
+          "q": "Who is Moatrics for?",
+          "a": "Patient investors who want to own a focused portfolio of wonderful companies bought at sensible prices. If you're looking for day-trading signals or short-term predictions, Moatrics is not for you."
+        },
+        "advice": {
+          "q": "Is Moatrics investment advice?",
+          "a": "No. Moatrics is an educational research platform — every screen, score, and valuation is a tool to help you think more clearly. We are not a registered investment advisor and every investment decision is yours alone."
+        },
+        "data": {
+          "q": "Where does your data come from?",
+          "a": "We pull from public sources — Yahoo Finance, SEC filings, and similar — and surface them in a single workspace. We don't sell data, and every metric traces back to a citable source."
+        },
+        "invite": {
+          "q": "Why is access invite-only?",
+          "a": "We're early. Limiting signups lets us keep the bar high, ship fast, and talk to every user. Most invite requests are approved within 1–2 business days."
+        },
+        "cancel": {
+          "q": "Can I cancel anytime?",
+          "a": "Yes. Pro is month-to-month or annual — you can cancel from your settings at any time and keep access until the end of the billing period."
+        }
+      }
+    },
+
     "cta_banner": {
       "title": "Ready to invest like the great ones?",
       "subtitle": "Moatrics is invite-only during early access. Tell us about yourself and we’ll be in touch.",
-      "button": "Request Your Invite"
+      "button": "Request Your Invite",
+      "secondary": "See pricing"
     }
   },
 
@@ -261,6 +332,8 @@
     "back_to_home": "Back to home",
     "last_updated": "Last updated",
     "contact_us_at": "Questions? Email us at",
+    "toc_title": "On this page",
+    "back_to_top": "Back to top",
 
     "terms": {
       "page_title": "Terms of Service",

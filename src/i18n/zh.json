@@ -26,13 +26,43 @@
       "eyebrow": "早期僅開放邀請註冊",
       "title": "投資優質的企業。當價值被低估時。",
       "subtitle": "為長期價值投資人打造的數據導向決策助手",
+      "trust_line": "基於 Phil Town 的價值投資框架,結合即時財務數據。",
       "cta_primary": "申請使用",
-      "cta_secondary": "了解運作方式"
+      "cta_secondary": "了解運作方式",
+      "kpi": {
+        "roic": {
+          "value": "≥ 10%",
+          "label": "ROIC 門檻"
+        },
+        "debt": {
+          "value": "< 3 年",
+          "label": "負債還清"
+        },
+        "mos": {
+          "value": "≥ 50%",
+          "label": "安全邊際"
+        }
+      }
     },
 
     "trust": {
+      "eyebrow": "為什麼選擇 Moatrics",
       "title": "建立在數十年來持續跑贏市場的投資原則之上。",
-      "subtitle": "優質企業。堅固護城河。安全邊際。"
+      "subtitle": "優質企業。堅固護城河。安全邊際。",
+      "cards": {
+        "focus": {
+          "title": "聚焦品質",
+          "desc": "我們替你過濾掉 95% 的市場,讓你只把時間花在真正會複利的少數企業上。"
+        },
+        "discipline": {
+          "title": "紀律內建",
+          "desc": "三套獨立估值模型強迫你保持保守 — 不再為熱門股付出過高代價。"
+        },
+        "transparency": {
+          "title": "數據透明",
+          "desc": "畫面上每個數字都能回溯到公開財報來源。沒有黑箱、沒有自創指標。"
+        }
+      }
     },
 
     "features": {
@@ -151,10 +181,51 @@
       }
     },
 
+    "preview": {
+      "section_eyebrow": "Moatrics 介面預覽",
+      "section_title": "你的研究,集中在一個工作平台。",
+      "section_subtitle": "篩選、估值、追蹤優質企業 — 全部在同一個專為長期投資人打造的工作空間。",
+      "caption_title": "個股分析 · 即時",
+      "caption_subtitle": "故事 · 護城河 · 三角估值"
+    },
+
+    "faq": {
+      "section_eyebrow": "常見問題",
+      "section_title": "你可能想知道的事",
+      "section_subtitle": "若以下未涵蓋你的問題,歡迎寄信至 service@moatrics.com。",
+      "items": {
+        "what_is": {
+          "q": "Moatrics 是什麼?",
+          "a": "Moatrics 是專為長期價值投資人打造的研究工作平台。我們在即時財務數據上套用 Rule 1 / Phil Town 的品質檢查框架 — ROIC、負債、護城河與成長性 — 讓你把精力集中在真正會複利的少數企業上。"
+        },
+        "who_for": {
+          "q": "Moatrics 適合什麼樣的人?",
+          "a": "適合想以合理價格買進並長期持有優質企業、組成集中持股的耐心投資人。如果你在找當沖訊號或短期預測,Moatrics 並不適合你。"
+        },
+        "advice": {
+          "q": "Moatrics 是投資建議嗎?",
+          "a": "不是。Moatrics 是教育性的研究平台 — 每個篩選、評分、估值都只是協助你思考的工具。我們不是註冊投資顧問,所有投資決策最終仍由你自己負責。"
+        },
+        "data": {
+          "q": "你們的資料從哪裡來?",
+          "a": "我們從公開資料來源 — Yahoo Finance、SEC 申報文件等 — 抓取資料,並整合在一個工作平台中。我們不販售資料,每項指標都能回溯到可引用的原始來源。"
+        },
+        "invite": {
+          "q": "為什麼採邀請制?",
+          "a": "我們處於早期階段。限制註冊讓我們能維持高品質、快速迭代、並親自回應每一位使用者。多數申請會在 1–2 個工作天內審核通過。"
+        },
+        "cancel": {
+          "q": "可以隨時取消嗎?",
+          "a": "可以。Pro 方案採月付或年付制 — 你可以隨時在帳號設定中取消,並保有到計費期結束的存取權。"
+        }
+      }
+    },
+
     "cta_banner": {
       "title": "準備好像偉大投資人一樣思考了嗎?",
       "subtitle": "Moatrics 早期僅開放邀請註冊。請填寫資料,我們會與你聯繫。",
-      "button": "申請邀請碼"
+      "button": "申請邀請碼",
+      "secondary": "查看方案"
     }
   },
 
@@ -261,6 +332,8 @@
     "back_to_home": "返回首頁",
     "last_updated": "最後更新",
     "contact_us_at": "有任何問題,歡迎來信",
+    "toc_title": "本頁目錄",
+    "back_to_top": "回到頂端",
 
     "terms": {
       "page_title": "服務條款",
