@@ -139,15 +139,19 @@ const description =
   {/* ─── 3. FEATURES — BENTO GRID ────────────────────────────────────────── */}
   <section class="mx-section" id="features">
     <div class="mx-container">
-      <div class="mx-section-head">
+      <div class="mx-section-head" data-reveal>
         <T k="home.features.section_eyebrow" as="span" class="mx-eyebrow mx-eyebrow-purple" />
         <T k="home.features.section_title" as="h2" class="mx-section-title" />
         <T k="home.features.section_subtitle" as="p" class="mx-section-sub" />
       </div>
 
       <div class="mx-bento">
-        {featureLayout.map(({ k, size }) => (
-          <article class={`mx-feature mx-glass mx-feature-${size}`}>
+        {featureLayout.map(({ k, size }, i) => (
+          <article
+            class={`mx-feature mx-glass mx-feature-${size}`}
+            data-reveal
+            data-reveal-delay={String((i % 3) + 1)}
+          >
             <div class="mx-feature-icon" aria-hidden="true">
               {k === 'moat' && (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
