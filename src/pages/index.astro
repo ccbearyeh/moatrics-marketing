@@ -171,12 +171,12 @@ const description =
   {/* ─── 5. METRICS BAND ─────────────────────────────────────────────────── */}
   <section class="mx-section-tight">
     <div class="mx-container">
-      <h2 class="mx-section-title mx-metrics-title">{t('home.metrics.section_title')}</h2>
+      <T k="home.metrics.section_title" as="h2" class="mx-section-title mx-metrics-title" />
       <div class="mx-metrics-grid">
         {metricKeys.map((k) => (
           <div class="mx-metric">
-            <span class="mx-metric-label">{t(`home.metrics.items.${k}.label`)}</span>
-            <p class="mx-metric-desc">{t(`home.metrics.items.${k}.desc`)}</p>
+            <T k={`home.metrics.items.${k}.label`} as="span" class="mx-metric-label" />
+            <T k={`home.metrics.items.${k}.desc`} as="p" class="mx-metric-desc" />
           </div>
         ))}
       </div>
