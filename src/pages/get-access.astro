@@ -1,0 +1,844 @@
+---
+/**
+ * /get-access — invite-only access request form.
+ *
+ * Why this page exists:
+ *   Moatrics is admin-managed (no self-serve signup). The navbar's
+ *   "Get Access" button used to point at `app.moatrics.com/signup`,
+ *   which doesn't have a real signup route, so it fell back to the
+ *   sign-in screen. This page is the actual "apply for access" form
+ *   the user expects.
+ *
+ * Backend:
+ *   Submits via fetch() to https://formsubmit.co/ajax/<token> — a
+ *   no-backend form-to-email service. NO Formspree / Netlify functions
+ *   / server endpoint needed; the static site stays static.
+ *
+ *   FIRST DEPLOY: the action below uses the raw email. On the first
+ *   real submission, formsubmit.co emails service@moatrics.com asking
+ *   to confirm — once confirmed, they reply with a HASHED token
+ *   (e.g. https://formsubmit.co/ajax/abc123def456...). REPLACE the
+ *   `FORMSUBMIT_ENDPOINT` constant below with that hashed URL so the
+ *   inbox email never appears in source. Until then, it works but
+ *   the address is scrape-visible.
+ *
+ * i18n:
+ *   Reuses the `auth.signup.*` keys (they already cover this exact
+ *   form). The success_body has a `{email}` placeholder that we
+ *   substitute client-side in JS.
+ */
+import PublicLayout from '../layouts/PublicLayout.astro';
+import T from '../components/T.astro';
+import { t } from '../i18n';
+
+const pageTitle = `${t('auth.signup.page_title')} — Moatrics`;
+const description =
+  'Request access to Moatrics — the data-driven co-pilot for long-term value investors. Invite-only during early access.';
+
+// See header comment. Swap with the hashed token from formsubmit.co
+// after the first activation email lands in service@moatrics.com.
+const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
+---
+
+<PublicLayout title={pageTitle} description={description} path="/get-access">
+  <section class="mx-getaccess">
+    <div class="mx-container">
+      <div class="mx-getaccess-grid">
+        {/* ── Left column: invite copy + what to expect ──────────────── */}
+        <aside class="mx-getaccess-side">
+          <span class="mx-eyebrow">
+            <T k="auth.signup.invite_badge" />
+          </span>
+          <T k="auth.signup.title" as="h1" class="mx-getaccess-title" />
+          <T k="auth.signup.subtitle" as="p" class="mx-getaccess-sub" />
+
+          <div class="mx-getaccess-bullets">
+            <div class="mx-getaccess-bullet">
+              <span class="mx-getaccess-bullet-num">01</span>
+              <div>
+                <span lang="en" data-i18n-lang="en" class="mx-i18n">
+                  <strong>Tell us about yourself.</strong> Name, email,
+                  what you're hoping to use Moatrics for.
+                </span>
+                <span lang="zh" data-i18n-lang="zh" class="mx-i18n">
+                  <strong>簡單介紹自己。</strong>姓名、Email，
+                  以及你希望用 Moatrics 做什麼。
+                </span>
+              </div>
+            </div>
+            <div class="mx-getaccess-bullet">
+              <span class="mx-getaccess-bullet-num">02</span>
+              <div>
+                <span lang="en" data-i18n-lang="en" class="mx-i18n">
+                  <strong>We review personally.</strong> Every
+                  application is read by a human. Usually within
+                  1–2 business days.
+                </span>
+                <span lang="zh" data-i18n-lang="zh" class="mx-i18n">
+                  <strong>我們親自審核。</strong>每一份申請都由真人閱讀，
+                  通常 1–2 個工作日內回覆。
+                </span>
+              </div>
+            </div>
+            <div class="mx-getaccess-bullet">
+              <span class="mx-getaccess-bullet-num">03</span>
+              <div>
+                <span lang="en" data-i18n-lang="en" class="mx-i18n">
+                  <strong>Credentials by email.</strong> Approved
+                  applicants receive their login details and a
+                  short onboarding note.
+                </span>
+                <span lang="zh" data-i18n-lang="zh" class="mx-i18n">
+                  <strong>Email 通知開通。</strong>通過申請的使用者，
+                  將收到登入資訊與簡短的上手說明。
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <p class="mx-getaccess-note">
+            <T k="auth.signup.invite_note" />
+          </p>
+        </aside>
+
+        {/* ── Right column: the form card ─────────────────────────────── */}
+        <div class="mx-getaccess-card mx-glass">
+          {/* Success state — shown by JS after a 200 from formsubmit. */}
+          <div class="mx-getaccess-success" hidden id="mx-success-state">
+            <div class="mx-getaccess-success-icon" aria-hidden="true">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" />
+                <path d="M7 12.5l3.5 3.5L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </div>
+            <T k="auth.signup.success_title" as="h2" class="mx-getaccess-success-title" />
+            <p class="mx-getaccess-success-body" id="mx-success-body">
+              <T k="auth.signup.success_body" />
+            </p>
+            <a href="/" class="mx-btn mx-btn-secondary mx-getaccess-success-cta">
+              <T k="legal.back_to_home" />
+            </a>
+          </div>
+
+          {/* Form state — default. */}
+          <form
+            class="mx-getaccess-form"
+            id="mx-getaccess-form"
+            method="POST"
+            action={FORMSUBMIT_ENDPOINT}
+            novalidate
+          >
+            {/* formsubmit.co configuration (hidden) */}
+            <input type="hidden" name="_subject" value="New Moatrics access request" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="hidden" name="_captcha" value="false" />
+            {/* honeypot — bots fill this, humans never see it */}
+            <input
+              type="text"
+              name="_honey"
+              tabindex="-1"
+              autocomplete="off"
+              class="mx-getaccess-honey"
+              aria-hidden="true"
+            />
+
+            <div class="mx-field">
+              <label class="mx-field-label" for="full_name">
+                <T k="auth.signup.full_name_label" />
+              </label>
+              <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                class="mx-input"
+                placeholder={t('auth.signup.full_name_placeholder')}
+                data-zh-placeholder={t('auth.signup.full_name_placeholder', 'zh')}
+                data-en-placeholder={t('auth.signup.full_name_placeholder', 'en')}
+                autocomplete="name"
+                required
+              />
+            </div>
+
+            <div class="mx-field">
+              <label class="mx-field-label" for="email">
+                <T k="auth.signup.email_label" />
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="mx-input"
+                placeholder={t('auth.signup.email_placeholder')}
+                data-zh-placeholder={t('auth.signup.email_placeholder', 'zh')}
+                data-en-placeholder={t('auth.signup.email_placeholder', 'en')}
+                autocomplete="email"
+                inputmode="email"
+                required
+              />
+            </div>
+
+            <div class="mx-field">
+              <label class="mx-field-label" for="company">
+                <T k="auth.signup.company_label" />
+              </label>
+              <input
+                type="text"
+                id="company"
+                name="company"
+                class="mx-input"
+                placeholder={t('auth.signup.company_placeholder')}
+                data-zh-placeholder={t('auth.signup.company_placeholder', 'zh')}
+                data-en-placeholder={t('auth.signup.company_placeholder', 'en')}
+                autocomplete="organization"
+              />
+            </div>
+
+            <fieldset class="mx-field mx-field-fieldset">
+              <legend class="mx-field-label">
+                <T k="auth.signup.tier_label" />
+              </legend>
+              <div class="mx-radio-group">
+                <label class="mx-radio">
+                  <input
+                    type="radio"
+                    name="plan_interest"
+                    value="free"
+                    checked
+                  />
+                  <span class="mx-radio-text">
+                    <T k="auth.signup.tier_free" />
+                  </span>
+                </label>
+                <label class="mx-radio">
+                  <input
+                    type="radio"
+                    name="plan_interest"
+                    value="pro"
+                  />
+                  <span class="mx-radio-text">
+                    <T k="auth.signup.tier_pro" />
+                  </span>
+                </label>
+              </div>
+              <p class="mx-field-help">
+                <T k="auth.signup.tier_help" />
+              </p>
+            </fieldset>
+
+            <div class="mx-field">
+              <label class="mx-field-label" for="reason">
+                <T k="auth.signup.reason_label" />
+              </label>
+              <textarea
+                id="reason"
+                name="reason"
+                rows="4"
+                class="mx-input mx-textarea"
+                placeholder={t('auth.signup.reason_placeholder')}
+                data-zh-placeholder={t('auth.signup.reason_placeholder', 'zh')}
+                data-en-placeholder={t('auth.signup.reason_placeholder', 'en')}
+              ></textarea>
+            </div>
+
+            <div class="mx-field mx-field-checkbox">
+              <label class="mx-checkbox">
+                <input
+                  type="checkbox"
+                  id="agree"
+                  name="agree"
+                  value="yes"
+                  required
+                />
+                {/* Dual-render the agreement label with inline anchor tags.
+                    Hard-coded per language so the legal links render as
+                    real <a> tags (i18n strings can't carry HTML safely). */}
+                <span lang="en" data-i18n-lang="en" class="mx-i18n mx-checkbox-text">
+                  I have read and agree to the
+                  <a href="/disclaimer">Investment Disclaimer</a>,
+                  <a href="/terms">Terms of Service</a>, and
+                  <a href="/privacy">Privacy Policy</a>.
+                  <span class="mx-required">*</span>
+                </span>
+                <span lang="zh" data-i18n-lang="zh" class="mx-i18n mx-checkbox-text">
+                  我已閱讀並同意
+                  <a href="/disclaimer">投資免責聲明</a>、
+                  <a href="/terms">服務條款</a>與
+                  <a href="/privacy">隱私權政策</a>。
+                  <span class="mx-required">*</span>
+                </span>
+              </label>
+              <p class="mx-field-help">
+                <T k="auth.signup.agree_help" />
+              </p>
+            </div>
+
+            {/* Inline error region (a11y: aria-live so screen readers
+                announce errors when they appear). */}
+            <p
+              class="mx-getaccess-error"
+              role="alert"
+              aria-live="polite"
+              id="mx-form-error"
+              hidden
+            ></p>
+
+            <button
+              type="submit"
+              class="mx-btn mx-btn-primary mx-getaccess-submit"
+              id="mx-submit-btn"
+            >
+              <span class="mx-getaccess-submit-label">
+                <T k="auth.signup.submit" />
+              </span>
+              <span class="mx-getaccess-submit-loading" hidden>
+                <T k="auth.signup.submitting" />
+              </span>
+            </button>
+
+            <p class="mx-getaccess-foot">
+              <T k="auth.signup.have_account" />{' '}
+              <a href="https://app.moatrics.com/signin" class="mx-getaccess-foot-link">
+                <T k="auth.signup.signin_link" />
+              </a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</PublicLayout>
+
+<style>
+  /* ─── Layout shell ────────────────────────────────────────────────────── */
+  .mx-getaccess {
+    padding: 56px 0 96px 0;
+  }
+
+  .mx-getaccess-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* ─── Left column ─────────────────────────────────────────────────────── */
+  .mx-getaccess-side {
+    position: sticky;
+    top: 100px;
+    padding-top: 8px;
+  }
+  .mx-getaccess-title {
+    font-family: var(--mx-font-display);
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    color: var(--mx-text);
+    letter-spacing: -1.2px;
+    line-height: 1.1;
+    margin: 0 0 14px 0;
+  }
+  .mx-getaccess-sub {
+    font-family: var(--mx-font-body);
+    font-size: 1.05rem;
+    color: var(--mx-text-2);
+    line-height: 1.6;
+    margin: 0 0 32px 0;
+    max-width: 480px;
+  }
+  .mx-getaccess-bullets {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .mx-getaccess-bullet {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .mx-getaccess-bullet-num {
+    flex: 0 0 36px;
+    height: 36px;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.10);
+    border: 1px solid var(--mx-border-strong);
+    color: var(--mx-purple-2);
+    font-family: var(--mx-font-mono);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mx-getaccess-bullet div {
+    font-family: var(--mx-font-body);
+    font-size: 0.94rem;
+    color: var(--mx-text-2);
+    line-height: 1.6;
+  }
+  .mx-getaccess-bullet strong {
+    color: var(--mx-text);
+    font-weight: 600;
+  }
+  .mx-getaccess-note {
+    font-family: var(--mx-font-body);
+    font-size: 0.85rem;
+    color: var(--mx-text-muted);
+    line-height: 1.6;
+    margin: 0;
+    padding: 14px 16px;
+    border-left: 2px solid var(--mx-border-gold);
+    background: rgba(251, 191, 36, 0.04);
+    border-radius: 0 8px 8px 0;
+  }
+
+  /* ─── Form card ───────────────────────────────────────────────────────── */
+  .mx-getaccess-card {
+    padding: 36px;
+    border-radius: var(--mx-radius-lg);
+  }
+  .mx-getaccess-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  /* Honeypot — visually + a11y-hidden, but in DOM so bots fill it. */
+  .mx-getaccess-honey {
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    width: 1px !important;
+    height: 1px !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
+  /* ─── Fields ──────────────────────────────────────────────────────────── */
+  .mx-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .mx-field-fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+  .mx-field-label {
+    font-family: var(--mx-font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mx-text-2);
+    letter-spacing: -0.1px;
+  }
+  .mx-field-help {
+    font-family: var(--mx-font-body);
+    font-size: 0.78rem;
+    color: var(--mx-text-muted);
+    line-height: 1.5;
+    margin: 4px 0 0 0;
+  }
+
+  .mx-input {
+    appearance: none;
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 11px 14px;
+    background: rgba(7, 4, 13, 0.45);
+    border: 1px solid var(--mx-border-strong);
+    border-radius: var(--mx-radius-sm);
+    color: var(--mx-text);
+    font-family: var(--mx-font-body);
+    font-size: 0.95rem;
+    line-height: 1.4;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease,
+      background 0.18s ease;
+  }
+  .mx-input::placeholder {
+    color: var(--mx-text-dim);
+  }
+  .mx-input:hover {
+    border-color: rgba(168, 85, 247, 0.32);
+  }
+  .mx-input:focus {
+    outline: none;
+    border-color: var(--mx-gold);
+    background: rgba(7, 4, 13, 0.65);
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.14);
+  }
+  .mx-input:invalid:not(:placeholder-shown) {
+    border-color: rgba(239, 68, 68, 0.45);
+  }
+  .mx-textarea {
+    min-height: 110px;
+    resize: vertical;
+    line-height: 1.55;
+  }
+
+  /* ─── Radio group ─────────────────────────────────────────────────────── */
+  .mx-radio-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .mx-radio {
+    flex: 1 1 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    min-height: 44px;
+    background: rgba(7, 4, 13, 0.45);
+    border: 1px solid var(--mx-border-strong);
+    border-radius: var(--mx-radius-sm);
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+  .mx-radio:hover {
+    border-color: rgba(168, 85, 247, 0.4);
+  }
+  .mx-radio input[type='radio'] {
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--mx-border-strong);
+    background: transparent;
+    cursor: pointer;
+    flex: 0 0 18px;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    position: relative;
+  }
+  .mx-radio input[type='radio']:checked {
+    border-color: var(--mx-gold);
+    background: radial-gradient(
+      circle,
+      var(--mx-gold) 0 38%,
+      transparent 42%
+    );
+  }
+  .mx-radio:has(input[type='radio']:checked) {
+    border-color: var(--mx-gold);
+    background: rgba(251, 191, 36, 0.06);
+  }
+  .mx-radio-text {
+    font-family: var(--mx-font-body);
+    font-size: 0.94rem;
+    font-weight: 500;
+    color: var(--mx-text);
+  }
+
+  /* ─── Checkbox (agreement) ────────────────────────────────────────────── */
+  .mx-field-checkbox {
+    gap: 4px;
+  }
+  .mx-checkbox {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 4px 0;
+  }
+  .mx-checkbox input[type='checkbox'] {
+    appearance: none;
+    flex: 0 0 20px;
+    width: 20px;
+    height: 20px;
+    margin-top: 2px;
+    border: 2px solid var(--mx-border-strong);
+    border-radius: 5px;
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.18s ease, background 0.18s ease;
+    position: relative;
+  }
+  .mx-checkbox input[type='checkbox']:hover {
+    border-color: rgba(168, 85, 247, 0.45);
+  }
+  .mx-checkbox input[type='checkbox']:checked {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-color: var(--mx-gold);
+  }
+  .mx-checkbox input[type='checkbox']:checked::after {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 1px;
+    width: 5px;
+    height: 11px;
+    border: solid #1a0f00;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+  .mx-checkbox-text {
+    font-family: var(--mx-font-body);
+    font-size: 0.88rem;
+    color: var(--mx-text-2);
+    line-height: 1.55;
+  }
+  .mx-checkbox-text a {
+    color: var(--mx-gold);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .mx-checkbox-text a:hover {
+    color: var(--mx-purple-2);
+  }
+  .mx-required {
+    color: var(--mx-gold);
+    font-weight: 600;
+  }
+
+  /* ─── Inline error + submit ───────────────────────────────────────────── */
+  .mx-getaccess-error {
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--mx-radius-sm);
+    background: rgba(239, 68, 68, 0.10);
+    border: 1px solid rgba(239, 68, 68, 0.32);
+    color: #fecaca;
+    font-family: var(--mx-font-body);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .mx-getaccess-submit {
+    width: 100%;
+    margin-top: 4px;
+    font-size: 1rem;
+    min-height: 50px;
+  }
+  .mx-getaccess-submit[disabled] {
+    opacity: 0.65;
+    cursor: not-allowed;
+    transform: none !important;
+  }
+
+  .mx-getaccess-foot {
+    text-align: center;
+    font-family: var(--mx-font-body);
+    font-size: 0.88rem;
+    color: var(--mx-text-muted);
+    margin: 4px 0 0 0;
+  }
+  .mx-getaccess-foot-link {
+    color: var(--mx-gold);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .mx-getaccess-foot-link:hover {
+    color: var(--mx-purple-2);
+  }
+
+  /* ─── Success state ───────────────────────────────────────────────────── */
+  .mx-getaccess-success {
+    text-align: center;
+    padding: 24px 8px;
+  }
+  .mx-getaccess-success-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px auto;
+    border-radius: 50%;
+    background: rgba(34, 197, 94, 0.12);
+    color: #4ade80;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .mx-getaccess-success-title {
+    font-family: var(--mx-font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--mx-text);
+    margin: 0 0 12px 0;
+    letter-spacing: -0.6px;
+  }
+  .mx-getaccess-success-body {
+    font-family: var(--mx-font-body);
+    font-size: 0.98rem;
+    color: var(--mx-text-2);
+    line-height: 1.65;
+    margin: 0 auto 24px auto;
+    max-width: 420px;
+  }
+  .mx-getaccess-success-cta {
+    min-width: 180px;
+  }
+
+  /* ─── Responsive ──────────────────────────────────────────────────────── */
+  @media (max-width: 1024px) {
+    .mx-getaccess-grid {
+      gap: 48px;
+    }
+  }
+  @media (max-width: 880px) {
+    .mx-getaccess-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+    .mx-getaccess-side {
+      position: static;
+      top: auto;
+    }
+  }
+  @media (max-width: 560px) {
+    .mx-getaccess {
+      padding: 36px 0 72px 0;
+    }
+    .mx-getaccess-card {
+      padding: 26px 20px;
+      border-radius: var(--mx-radius);
+    }
+    .mx-getaccess-bullet-num {
+      flex-basis: 30px;
+      height: 30px;
+      font-size: 0.7rem;
+    }
+    .mx-radio-group {
+      flex-direction: column;
+    }
+  }
+</style>
+
+<script is:inline define:vars={{ FORMSUBMIT_ENDPOINT }}>
+  // ── /get-access form submission ────────────────────────────────────────
+  // Vanilla JS, no framework. Submits as JSON to formsubmit.co's AJAX
+  // endpoint so we never leave the page on success.
+  //
+  // Also flips the email + textarea placeholders when the EN/中 toggle
+  // switches `<html lang>`, since native form placeholders aren't part
+  // of the dual-render CSS swap that <T> uses.
+  (function () {
+    const form = document.getElementById('mx-getaccess-form');
+    const errorEl = document.getElementById('mx-form-error');
+    const submitBtn = document.getElementById('mx-submit-btn');
+    const successState = document.getElementById('mx-success-state');
+    const successBody = document.getElementById('mx-success-body');
+    if (!form || !errorEl || !submitBtn || !successState) return;
+
+    // ── Placeholder language sync ──────────────────────────────────────
+    function syncPlaceholders(lang) {
+      const attr = lang === 'zh' ? 'data-zh-placeholder' : 'data-en-placeholder';
+      form.querySelectorAll('[' + attr + ']').forEach((el) => {
+        const val = el.getAttribute(attr);
+        if (val) el.setAttribute('placeholder', val);
+      });
+    }
+    syncPlaceholders(document.documentElement.getAttribute('lang') || 'en');
+
+    // The navbar lang toggle just flips <html lang> via setAttribute, so
+    // we observe that attribute and re-sync placeholders on change.
+    new MutationObserver((muts) => {
+      for (const m of muts) {
+        if (m.attributeName === 'lang') {
+          syncPlaceholders(document.documentElement.getAttribute('lang') || 'en');
+        }
+      }
+    }).observe(document.documentElement, { attributes: true });
+
+    // ── Submit handler ─────────────────────────────────────────────────
+    function showError(msgKey) {
+      // We don't have per-language error strings imported here, so use
+      // the small set baked into auth.signup.error_*. Fall back to a
+      // generic English message if a key isn't present in the DOM.
+      const map = {
+        invalid_email: {
+          en: 'Please enter a valid email address.',
+          zh: '請輸入有效的 Email 地址。',
+        },
+        must_agree: {
+          en: 'You must agree to the Investment Disclaimer, Terms of Service, and Privacy Policy to continue.',
+          zh: '請先同意投資免責聲明、服務條款與隱私權政策後再繼續。',
+        },
+        network: {
+          en: 'Something went wrong. Please try again, or email service@moatrics.com directly.',
+          zh: '發生錯誤，請再試一次，或直接寄信至 service@moatrics.com。',
+        },
+      };
+      const lang = document.documentElement.getAttribute('lang') === 'zh' ? 'zh' : 'en';
+      errorEl.textContent = (map[msgKey] || map.network)[lang];
+      errorEl.hidden = false;
+      errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function clearError() {
+      errorEl.hidden = true;
+      errorEl.textContent = '';
+    }
+
+    const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      clearError();
+
+      // Honeypot — if filled, silently succeed (don't tip off the bot).
+      const honey = form.querySelector('[name="_honey"]');
+      if (honey && honey.value) {
+        successState.removeAttribute('hidden');
+        form.style.display = 'none';
+        return;
+      }
+
+      const email = form.email.value.trim();
+      const agree = form.agree.checked;
+
+      if (!EMAIL_RE.test(email)) {
+        showError('invalid_email');
+        return;
+      }
+      if (!agree) {
+        showError('must_agree');
+        return;
+      }
+
+      // Loading state
+      submitBtn.disabled = true;
+      submitBtn.querySelector('.mx-getaccess-submit-label').hidden = true;
+      submitBtn.querySelector('.mx-getaccess-submit-loading').hidden = false;
+
+      // Build JSON payload — formsubmit.co's AJAX endpoint accepts JSON.
+      const data = {
+        full_name: form.full_name.value.trim(),
+        email: email,
+        company: form.company.value.trim(),
+        plan_interest: (form.plan_interest.value || 'free'),
+        reason: form.reason.value.trim(),
+        agreed: agree ? 'yes' : 'no',
+        _subject: 'New Moatrics access request',
+        _template: 'table',
+        _captcha: 'false',
+      };
+
+      try {
+        const res = await fetch(FORMSUBMIT_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+
+        // Substitute {email} in the success body. Both EN + ZH <T> emits
+        // sit inside #mx-success-body; do the swap on each.
+        successBody.querySelectorAll('[data-i18n-lang]').forEach((el) => {
+          el.textContent = el.textContent.replace('{email}', email);
+        });
+
+        form.style.display = 'none';
+        successState.removeAttribute('hidden');
+        successState.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {
+        showError('network');
+        submitBtn.disabled = false;
+        submitBtn.querySelector('.mx-getaccess-submit-label').hidden = false;
+        submitBtn.querySelector('.mx-getaccess-submit-loading').hidden = true;
+      }
+    });
+  })();
+</script>
+</PublicLayout>
