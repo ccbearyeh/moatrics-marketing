@@ -213,8 +213,34 @@ a {
 }
 
 /* ─── Sections ─────────────────────────────────────────────────────────── */
-.mx-section { padding: 112px 0; position: relative; }
-.mx-section-tight { padding: 64px 0; position: relative; }
+/* `scroll-margin-top` so anchored links (#features etc.) don't hide content
+   under the sticky pill navbar. ~96px = nav height + breathing room. */
+.mx-section,
+.mx-section-tight {
+  scroll-margin-top: 96px;
+}
+.mx-section { padding: 120px 0; position: relative; }
+.mx-section-tight { padding: 72px 0; position: relative; }
+
+/* Alternating section band — subtle purple-tinted backdrop on every other
+   section to give the page visual rhythm and make sections feel like
+   discrete, themed chapters instead of one endless dark wash. */
+.mx-section-band {
+  position: relative;
+  isolation: isolate;
+}
+.mx-section-band::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(80% 100% at 50% 0%, rgba(168, 85, 247, 0.06), transparent 70%),
+    linear-gradient(180deg, rgba(168, 85, 247, 0.04) 0%, rgba(168, 85, 247, 0.015) 100%);
+  border-top: 1px solid rgba(168, 85, 247, 0.10);
+  border-bottom: 1px solid rgba(168, 85, 247, 0.10);
+  pointer-events: none;
+}
 
 /* Section divider — pure decoration, sits between two sections */
 .mx-divider {
@@ -226,26 +252,52 @@ a {
   opacity: 0.55;
 }
 
-.mx-section-head { text-align: center; margin-bottom: 64px; }
-.mx-section-head .mx-eyebrow { margin-bottom: 18px; }
+.mx-section-head { text-align: center; margin-bottom: 72px; max-width: 820px; margin-left: auto; margin-right: auto; }
+.mx-section-head .mx-eyebrow { margin-bottom: 20px; }
 
 .mx-section-title {
   font-family: var(--mx-font-display);
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.1rem, 4.4vw, 3.2rem);
   font-weight: 700;
   color: var(--mx-text);
-  letter-spacing: -1.2px;
-  line-height: 1.1;
-  margin: 0 auto 16px auto;
+  letter-spacing: -1.4px;
+  line-height: 1.08;
+  margin: 0 auto 18px auto;
   max-width: 820px;
 }
 .mx-section-sub {
   font-family: var(--mx-font-body);
-  font-size: 1.06rem;
+  font-size: 1.08rem;
   color: var(--mx-text-muted);
-  max-width: 620px;
+  max-width: 640px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.65;
+}
+
+/* ─── Scroll-reveal — used on .mx-section-head, cards, etc.
+   Elements start invisible + nudged 16px down; an IntersectionObserver
+   inline-script in PublicLayout adds `[data-reveal="in"]` when they enter
+   the viewport. Honours prefers-reduced-motion. ─────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+[data-reveal][data-reveal-state='in'] {
+  opacity: 1;
+  transform: none;
+}
+[data-reveal][data-reveal-delay='1'] { transition-delay: 0.08s; }
+[data-reveal][data-reveal-delay='2'] { transition-delay: 0.16s; }
+[data-reveal][data-reveal-delay='3'] { transition-delay: 0.24s; }
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 /* ─── Responsive breakpoints — standardized 1240 / 1024 / 768 / 560 ─── */
