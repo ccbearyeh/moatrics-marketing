@@ -59,6 +59,26 @@ const organizationJsonLd = {
 <!doctype html>
 <html lang="en">
   <head>
+    {/* ── Pre-paint language detection ────────────────────────────────────
+        Runs BEFORE any visible content so `<html lang>` is correct on the
+        first paint, which means our dual-render CSS (hides the inactive
+        language via `html[lang="zh"] [data-i18n-lang="en"]`) never flashes
+        the wrong copy. Cookie name + values match the navbar EN/中 toggle.
+        Defaults to `en` if no cookie. `is:inline` ensures Astro emits this
+        verbatim without bundling — required so it can run before <body>. */}
+    <script is:inline>
+      (function () {
+        try {
+          var m = document.cookie.match(/(?:^|;\s*)moatrics_lang=(en|zh)/);
+          var lang = m ? m[1] : 'en';
+          document.documentElement.setAttribute('lang', lang);
+        } catch (e) {
+          /* Cookie access can throw in some sandboxed contexts; default to en. */
+          document.documentElement.setAttribute('lang', 'en');
+        }
+      })();
+    </script>
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="generator" content={Astro.generator} />
