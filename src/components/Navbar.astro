@@ -387,19 +387,25 @@ const navLinks = [
     border: 0;
   }
 
+  /* Tablet — keep nav-links visible, tighter spacing */
   @media (max-width: 1024px) {
     .mx-nav-links { gap: 18px; }
-    .mx-navbar { gap: 16px; }
+    .mx-navbar { gap: 16px; padding: 8px 16px; }
+    .mx-nav-links a { font-size: 0.88rem; }
+    .mx-nav-cta { gap: 8px; }
+    .mx-nav-cta .mx-btn { padding: 7px 14px; font-size: 0.86rem; }
   }
+  /* Narrow tablet — drop sign-in (kept in drawer), keep CTA + lang toggle */
   @media (max-width: 900px) {
     .mx-nav-links { display: none; }
     .mx-nav-cta .mx-nav-signin { display: none; }
   }
+  /* Mobile — collapse to hamburger */
   @media (max-width: 768px) {
     .mx-navbar-wrap { padding-top: 8px; }
-    .mx-navbar { padding: 8px 14px; gap: 12px; }
-    .mx-logo { height: 42px; }
-    .mx-logo-text { font-size: 1.35rem; }
+    .mx-navbar { padding: 6px 12px; gap: 12px; }
+    .mx-logo { height: 38px; }
+    .mx-logo-text { font-size: 1.2rem; }
     .mx-nav-cta { display: none; }
     .mx-hamburger { display: inline-flex; }
   }
