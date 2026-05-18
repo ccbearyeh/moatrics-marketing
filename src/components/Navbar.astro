@@ -107,6 +107,16 @@ const navLinks = [
   >
     <div class="mx-mobile-drawer-inner">
       <h2 id="mx-mobile-drawer-title" class="sr-only">Navigation</h2>
+      <button
+        type="button"
+        class="mx-mobile-close"
+        aria-label="Close navigation menu"
+        data-mx-close
+      >
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M3 3L15 15M15 3L3 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
       <ul role="list" class="mx-mobile-links">
         {navLinks.map((l) => (
           <li><a href={l.href} data-mx-close><T k={l.k} /></a></li>
