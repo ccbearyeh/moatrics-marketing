@@ -213,8 +213,18 @@ a {
 }
 
 /* ─── Sections ─────────────────────────────────────────────────────────── */
-.mx-section { padding: 112px 0; }
-.mx-section-tight { padding: 64px 0; }
+.mx-section { padding: 112px 0; position: relative; }
+.mx-section-tight { padding: 64px 0; position: relative; }
+
+/* Section divider — pure decoration, sits between two sections */
+.mx-divider {
+  position: relative;
+  height: 1px;
+  margin: 0 auto;
+  max-width: 1240px;
+  background: var(--mx-section-divider);
+  opacity: 0.55;
+}
 
 .mx-section-head { text-align: center; margin-bottom: 64px; }
 .mx-section-head .mx-eyebrow { margin-bottom: 18px; }
