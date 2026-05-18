@@ -54,6 +54,34 @@
   --mx-radius: 16px;
   --mx-radius-lg: 22px;
   --mx-radius-xl: 28px;
+
+  /* Shadows */
+  --mx-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+  --mx-shadow-md: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --mx-shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.55), 0 0 80px rgba(168, 85, 247, 0.08);
+  --mx-shadow-gold: 0 12px 32px rgba(251, 191, 36, 0.32);
+  --mx-shadow-purple: 0 12px 32px rgba(168, 85, 247, 0.22);
+
+  /* Section divider — soft purple gradient line */
+  --mx-section-divider: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(168, 85, 247, 0.18) 20%,
+    rgba(251, 191, 36, 0.22) 50%,
+    rgba(168, 85, 247, 0.18) 80%,
+    transparent 100%
+  );
+
+  /* Animation timing */
+  --mx-anim-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --mx-anim-med: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --mx-anim-slow: 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Standardized breakpoints (informational — use in @media queries) */
+  --mx-bp-sm: 560px;
+  --mx-bp-md: 768px;
+  --mx-bp-lg: 1024px;
+  --mx-bp-xl: 1240px;
 }
 
 /* ─── Base page ─────────────────────────────────────────────────────────── */
