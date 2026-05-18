@@ -103,10 +103,21 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
 
         {/* ── Right column: the form card ─────────────────────────────── */}
         <div class="mx-getaccess-card mx-glass">
+          {/* Step indicator (form state only). Hidden in success state. */}
+          <div class="mx-getaccess-stepbar" id="mx-stepbar" aria-hidden="true">
+            <span class="mx-step-dot mx-step-active"></span>
+            <span class="mx-step-dot"></span>
+            <span class="mx-step-dot"></span>
+            <span class="mx-step-label">
+              <span lang="en" data-i18n-lang="en" class="mx-i18n">Step 1 of 3 — Tell us about you</span>
+              <span lang="zh" data-i18n-lang="zh" class="mx-i18n">第 1 步,共 3 步 — 介紹自己</span>
+            </span>
+          </div>
+
           {/* Success state — shown by JS after a 200 from formsubmit. */}
           <div class="mx-getaccess-success" hidden id="mx-success-state">
             <div class="mx-getaccess-success-icon" aria-hidden="true">
-              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="56" height="56" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <circle cx="12" cy="12" r="11" stroke="currentColor" stroke-width="1.5" />
                 <path d="M7 12.5l3.5 3.5L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
@@ -115,9 +126,11 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
             <p class="mx-getaccess-success-body" id="mx-success-body">
               <T k="auth.signup.success_body" />
             </p>
-            <a href="/" class="mx-btn mx-btn-secondary mx-getaccess-success-cta">
-              <T k="legal.back_to_home" />
-            </a>
+            <div class="mx-getaccess-success-actions">
+              <a href="/" class="mx-btn mx-btn-secondary mx-getaccess-success-cta">
+                <T k="legal.back_to_home" />
+              </a>
+            </div>
           </div>
 
           {/* Form state — default. */}
