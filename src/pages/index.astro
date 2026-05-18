@@ -294,14 +294,14 @@ const description =
   {/* ─── 6. PRODUCT PREVIEW ──────────────────────────────────────────────── */}
   <section class="mx-section" id="preview">
     <div class="mx-container">
-      <div class="mx-section-head">
+      <div class="mx-section-head" data-reveal>
         <T k="home.preview.section_eyebrow" as="span" class="mx-eyebrow" />
         <T k="home.preview.section_title" as="h2" class="mx-section-title" />
         <T k="home.preview.section_subtitle" as="p" class="mx-section-sub" />
       </div>
 
       {/* Stylized mock screenshot — pure CSS / SVG, no image asset needed. */}
-      <div class="mx-preview-frame mx-glass">
+      <div class="mx-preview-frame mx-glass" data-reveal data-reveal-delay="1">
         <header class="mx-preview-chrome" aria-hidden="true">
           <span class="mx-preview-dot" style="background:#ef4444"></span>
           <span class="mx-preview-dot" style="background:#fbbf24"></span>
