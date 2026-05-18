@@ -187,9 +187,9 @@ const description =
   <section class="mx-section" id="pricing">
     <div class="mx-container">
       <div class="mx-section-head">
-        <span class="mx-eyebrow">{t('home.pricing_teaser.section_eyebrow')}</span>
-        <h2 class="mx-section-title">{t('home.pricing_teaser.section_title')}</h2>
-        <p class="mx-section-sub">{t('home.pricing_teaser.section_subtitle')}</p>
+        <T k="home.pricing_teaser.section_eyebrow" as="span" class="mx-eyebrow" />
+        <T k="home.pricing_teaser.section_title" as="h2" class="mx-section-title" />
+        <T k="home.pricing_teaser.section_subtitle" as="p" class="mx-section-sub" />
       </div>
 
       <div class="mx-billing-toggle" role="tablist" aria-label="Billing cycle">
@@ -200,7 +200,7 @@ const description =
           class="mx-billing-btn mx-billing-active"
           data-billing="monthly"
         >
-          {t('home.pricing_teaser.billing_monthly')}
+          <T k="home.pricing_teaser.billing_monthly" />
         </button>
         <button
           type="button"
@@ -209,7 +209,7 @@ const description =
           class="mx-billing-btn"
           data-billing="annually"
         >
-          {t('home.pricing_teaser.billing_annually')}
+          <T k="home.pricing_teaser.billing_annually" />
         </button>
       </div>
 
@@ -217,60 +217,85 @@ const description =
         {/* Free */}
         <article class="mx-price-card mx-glass">
           <header class="mx-price-head">
-            <h3 class="mx-price-name">{t('home.pricing_teaser.free.name')}</h3>
+            <T k="home.pricing_teaser.free.name" as="h3" class="mx-price-name" />
             <div class="mx-price-amount">
-              <span class="mx-price-num">{t('home.pricing_teaser.free.price')}</span>
-              <span class="mx-price-period">{t('home.pricing_teaser.free.period')}</span>
+              <T k="home.pricing_teaser.free.price" as="span" class="mx-price-num" />
+              <T k="home.pricing_teaser.free.period" as="span" class="mx-price-period" />
             </div>
-            <p class="mx-price-tag">{t('home.pricing_teaser.free.tagline')}</p>
+            <T k="home.pricing_teaser.free.tagline" as="p" class="mx-price-tag" />
           </header>
           <ul role="list" class="mx-price-list">
-            {freeFeatures.map((f) => (
+            {freeFeaturePairs.map(([en, zh]) => (
               <li>
                 <span class="mx-price-check" aria-hidden="true">✓</span>
-                <span>{f}</span>
+                <span class="mx-i18n" lang="en" data-i18n-lang="en">{en}</span>
+                <span class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh}</span>
               </li>
             ))}
           </ul>
           <a class="mx-btn mx-btn-secondary mx-price-cta" href={`${APP_BASE}/signup`}>
-            {t('home.pricing_teaser.free.cta')}
+            <T k="home.pricing_teaser.free.cta" />
           </a>
         </article>
 
         {/* Pro */}
         <article class="mx-price-card mx-price-card-featured mx-glass">
-          <span class="mx-price-badge">Recommended</span>
+          <span class="mx-price-badge">
+            <T k="home.pricing_teaser.recommended_badge" />
+          </span>
           <header class="mx-price-head">
-            <h3 class="mx-price-name">{t('home.pricing_teaser.pro.name')}</h3>
+            <T k="home.pricing_teaser.pro.name" as="h3" class="mx-price-name" />
             <div class="mx-price-amount">
+              {/*
+                Dual-render price number. Both EN and ZH siblings carry
+                data-monthly / data-annually with their own language values, so
+                the vanilla JS billing switcher swaps `textContent` on whichever
+                sibling is visible (the other is `display: none` via CSS).
+              */}
               <span
-                class="mx-price-num"
-                data-monthly={t('home.pricing_teaser.pro.price_monthly')}
-                data-annually={t('home.pricing_teaser.pro.price_annually')}
-              >
-                {t('home.pricing_teaser.pro.price_monthly')}
-              </span>
-              <span class="mx-price-period">{t('home.pricing_teaser.pro.period')}</span>
+                class="mx-price-num mx-i18n"
+                lang="en"
+                data-i18n-lang="en"
+                data-monthly={proPriceMonthlyEn}
+                data-annually={proPriceAnnuallyEn}
+              >{proPriceMonthlyEn}</span>
+              <span
+                class="mx-price-num mx-i18n"
+                lang="zh"
+                data-i18n-lang="zh"
+                data-monthly={proPriceMonthlyZh}
+                data-annually={proPriceAnnuallyZh}
+              >{proPriceMonthlyZh}</span>
+              <T k="home.pricing_teaser.pro.period" as="span" class="mx-price-period" />
             </div>
+            {/* Billing-note swappable in both languages */}
             <p
-              class="mx-price-tag"
-              data-monthly={t('home.pricing_teaser.pro.billing_note_monthly')}
-              data-annually={t('home.pricing_teaser.pro.billing_note_annually')}
-            >
-              {t('home.pricing_teaser.pro.billing_note_monthly')}
-            </p>
-            <p class="mx-price-tag">{t('home.pricing_teaser.pro.tagline')}</p>
+              class="mx-price-tag mx-i18n"
+              lang="en"
+              data-i18n-lang="en"
+              data-monthly={proNoteMonthlyEn}
+              data-annually={proNoteAnnuallyEn}
+            >{proNoteMonthlyEn}</p>
+            <p
+              class="mx-price-tag mx-i18n"
+              lang="zh"
+              data-i18n-lang="zh"
+              data-monthly={proNoteMonthlyZh}
+              data-annually={proNoteAnnuallyZh}
+            >{proNoteMonthlyZh}</p>
+            <T k="home.pricing_teaser.pro.tagline" as="p" class="mx-price-tag" />
           </header>
           <ul role="list" class="mx-price-list">
-            {proFeatures.map((f) => (
+            {proFeaturePairs.map(([en, zh]) => (
               <li>
                 <span class="mx-price-check" aria-hidden="true">✓</span>
-                <span>{f}</span>
+                <span class="mx-i18n" lang="en" data-i18n-lang="en">{en}</span>
+                <span class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh}</span>
               </li>
             ))}
           </ul>
           <a class="mx-btn mx-btn-primary mx-price-cta" href={`${APP_BASE}/signup`}>
-            {t('home.pricing_teaser.pro.cta')}
+            <T k="home.pricing_teaser.pro.cta" />
           </a>
         </article>
       </div>
