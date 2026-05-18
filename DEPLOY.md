@@ -131,9 +131,10 @@ assume browser cache — re-check with `curl -I`.
   *marketing site only* (`ccbearyeh/moatrics-marketing`). The Streamlit
   app lives in a separate repo (`ccbearyeh/moatrics-investing-tool`)
   deployed differently. Cross-contamination breaks both.
-- **Mentioning `wellgousa.com` or `shawn.yeh@wellgousa.com` anywhere.**
-  The only contact email is `service@moatrics.com`. This rule has been
-  broken before; grep for `wellgousa` before every commit.
+- **Leaking the user's unrelated personal-email domain into this repo.**
+  The only contact email is `service@moatrics.com`. The full policy lives
+  in the parent `CLAUDE.md` ("Contact email policy") — grep before every
+  commit using the patterns named there.
 
 ## DNS, TLS, nginx — for reference
 
