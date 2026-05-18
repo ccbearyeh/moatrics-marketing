@@ -59,15 +59,15 @@ const description =
     <div class="mx-hero-blob mx-hero-blob-b" aria-hidden="true"></div>
 
     <div class="mx-container mx-hero-inner">
-      <span class="mx-eyebrow">{t('home.hero.eyebrow')}</span>
-      <h1 class="mx-hero-title">{t('home.hero.title')}</h1>
-      <p class="mx-hero-subtitle">{t('home.hero.subtitle')}</p>
+      <T k="home.hero.eyebrow" as="span" class="mx-eyebrow" />
+      <T k="home.hero.title" as="h1" class="mx-hero-title" />
+      <T k="home.hero.subtitle" as="p" class="mx-hero-subtitle" />
       <div class="mx-hero-cta">
         <a class="mx-btn mx-btn-primary" href={`${APP_BASE}/signup`}>
-          {t('home.hero.cta_primary')}
+          <T k="home.hero.cta_primary" />
         </a>
         <a class="mx-btn mx-btn-secondary" href="#how-it-works">
-          {t('home.hero.cta_secondary')}
+          <T k="home.hero.cta_secondary" />
         </a>
       </div>
     </div>
