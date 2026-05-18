@@ -306,10 +306,10 @@ const description =
   <section class="mx-section-tight">
     <div class="mx-container">
       <div class="mx-cta-banner mx-glass">
-        <h2 class="mx-cta-title">{t('home.cta_banner.title')}</h2>
-        <p class="mx-cta-sub">{t('home.cta_banner.subtitle')}</p>
+        <T k="home.cta_banner.title" as="h2" class="mx-cta-title" />
+        <T k="home.cta_banner.sub" as="p" class="mx-cta-sub" />
         <a class="mx-btn mx-btn-primary" href={`${APP_BASE}/signup`}>
-          {t('home.cta_banner.button')}
+          <T k="home.cta_banner.button" />
         </a>
       </div>
     </div>
