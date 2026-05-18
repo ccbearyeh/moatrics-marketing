@@ -497,5 +497,15 @@ const navLinks = [
         setLang(b.getAttribute('data-mx-lang'));
       });
     });
+
+    // ── Scroll-state — tighten navbar after 12px of scroll ──────────────
+    const wrap = document.getElementById('mx-navbar-wrap');
+    if (wrap) {
+      const sync = () => {
+        wrap.setAttribute('data-scrolled', String(window.scrollY > 12));
+      };
+      sync();
+      window.addEventListener('scroll', sync, { passive: true });
+    }
   })();
 </script>
