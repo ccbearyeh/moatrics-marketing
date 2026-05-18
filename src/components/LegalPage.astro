@@ -4,8 +4,16 @@
  *
  * Reads `legal.<key>` from i18n: title, updated_date, intro, sections[].{h,p}.
  * The page wrapper (PublicLayout) handles meta + nav + footer.
+ *
+ * All visible copy dual-renders EN + ZH inline. Simple strings go through
+ * the `<T>` component (which emits two siblings with `data-i18n-lang`);
+ * the sections array is zipped into [en, zh] tuples and each row renders
+ * paired `<h2>` / `<p>` siblings carrying the same attribute. Global CSS
+ * hides whichever language doesn't match `<html lang>` so the swap is
+ * instant and FOUC-free on first paint.
  */
-import { t, getNode } from '../i18n';
+import T from './T.astro';
+import { getNode } from '../i18n';
 
 interface Props {
   /** i18n key under `legal.*` — e.g. "terms", "privacy", "disclaimer" */
@@ -13,40 +21,49 @@ interface Props {
 }
 const { legalKey } = Astro.props as Props;
 
-const title = t(`legal.${legalKey}.title`);
-const updated = t(`legal.${legalKey}.updated_date`);
-const intro = t(`legal.${legalKey}.intro`);
-const sections = (getNode(`legal.${legalKey}.sections`) as Array<{ h: string; p: string }>) ?? [];
+type Section = { h: string; p: string };
+const sectionsEn = (getNode(`legal.${legalKey}.sections`, 'en') as Section[]) ?? [];
+const sectionsZh = (getNode(`legal.${legalKey}.sections`, 'zh') as Section[]) ?? [];
+// Zip into [en, zh] pairs so each row renders both languages as siblings.
+// If a ZH entry is missing for some reason, fall back to the EN copy so
+// the page never shows an empty heading or paragraph.
+const sectionPairs = sectionsEn.map(
+  (en, i) => [en, sectionsZh[i] ?? en] as const,
+);
+
 const CONTACT_EMAIL = 'service@moatrics.com';
 ---
 
 <article class="mx-legal">
   <div class="mx-container">
     <a class="mx-legal-back" href="/">
-      <span aria-hidden="true">←</span> {t('legal.back_to_home')}
+      <span aria-hidden="true">←</span> <T k="legal.back_to_home" />
     </a>
 
     <header class="mx-legal-head">
-      <h1 class="mx-legal-title">{title}</h1>
+      <T k={`legal.${legalKey}.title`} as="h1" class="mx-legal-title" />
       <p class="mx-legal-updated">
-        {t('legal.last_updated')}: <time>{updated}</time>
+        <T k="legal.last_updated" />:{' '}
+        <T k={`legal.${legalKey}.updated_date`} as="time" />
       </p>
     </header>
 
-    <p class="mx-legal-intro">{intro}</p>
+    <T k={`legal.${legalKey}.intro`} as="p" class="mx-legal-intro" />
 
     <div class="mx-legal-body">
-      {sections.map((s) => (
+      {sectionPairs.map(([en, zh]) => (
         <section class="mx-legal-section">
-          <h2>{s.h}</h2>
-          <p>{s.p}</p>
+          <h2 class="mx-i18n" lang="en" data-i18n-lang="en">{en.h}</h2>
+          <h2 class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.h}</h2>
+          <p class="mx-i18n" lang="en" data-i18n-lang="en">{en.p}</p>
+          <p class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.p}</p>
         </section>
       ))}
     </div>
 
     <footer class="mx-legal-foot">
       <p>
-        {t('legal.contact_us_at')}{' '}
+        <T k="legal.contact_us_at" />{' '}
         <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
       </p>
     </footer>
