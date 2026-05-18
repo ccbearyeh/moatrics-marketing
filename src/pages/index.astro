@@ -488,15 +488,19 @@ const description =
   {/* ─── 8. FAQ ──────────────────────────────────────────────────────────── */}
   <section class="mx-section" id="faq">
     <div class="mx-container">
-      <div class="mx-section-head">
+      <div class="mx-section-head" data-reveal>
         <T k="home.faq.section_eyebrow" as="span" class="mx-eyebrow" />
         <T k="home.faq.section_title" as="h2" class="mx-section-title" />
         <T k="home.faq.section_subtitle" as="p" class="mx-section-sub" />
       </div>
 
       <div class="mx-faq-list">
-        {faqKeys.map((k) => (
-          <details class="mx-faq mx-glass">
+        {faqKeys.map((k, i) => (
+          <details
+            class="mx-faq mx-glass"
+            data-reveal
+            data-reveal-delay={String((i % 3) + 1)}
+          >
             <summary class="mx-faq-q">
               <T k={`home.faq.items.${k}.q`} as="span" class="mx-faq-q-text" />
               <span class="mx-faq-icon" aria-hidden="true">
