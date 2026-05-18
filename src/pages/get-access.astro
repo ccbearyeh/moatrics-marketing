@@ -409,11 +409,44 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
   .mx-getaccess-card {
     padding: 36px;
     border-radius: var(--mx-radius-lg);
+    position: relative;
   }
   .mx-getaccess-form {
     display: flex;
     flex-direction: column;
     gap: 18px;
+  }
+
+  /* Top progress / step indicator */
+  .mx-getaccess-stepbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0 0 22px 0;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--mx-border);
+  }
+  .mx-step-dot {
+    width: 28px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.10);
+    transition: background 0.22s ease, width 0.22s ease;
+  }
+  .mx-step-dot.mx-step-active {
+    background: linear-gradient(90deg, var(--mx-purple-2), var(--mx-gold));
+    width: 44px;
+  }
+  .mx-step-label {
+    margin-left: 6px;
+    font-family: var(--mx-font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--mx-text-muted);
+  }
+  @media (max-width: 560px) {
+    .mx-step-label { display: none; }
   }
 
   /* Honeypot — visually + a11y-hidden, but in DOM so bots fill it. */
