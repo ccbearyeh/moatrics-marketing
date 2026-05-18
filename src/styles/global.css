@@ -248,20 +248,26 @@ a {
   line-height: 1.6;
 }
 
-/* ─── Responsive breakpoints (mirror existing public_ui.py) ────────────── */
+/* ─── Responsive breakpoints — standardized 1240 / 1024 / 768 / 560 ─── */
+@media (max-width: 1240px) {
+  .mx-container { padding-left: 1.75rem; padding-right: 1.75rem; }
+}
 @media (max-width: 1024px) {
   .mx-section { padding: 88px 0; }
   .mx-section-tight { padding: 56px 0; }
+  .mx-section-head { margin-bottom: 48px; }
 }
 @media (max-width: 768px) {
   .mx-container { padding-left: 1.25rem; padding-right: 1.25rem; }
   .mx-section { padding: 72px 0; }
   .mx-section-tight { padding: 48px 0; }
+  .mx-section-head { margin-bottom: 40px; }
 }
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .mx-container { padding-left: 1rem; padding-right: 1rem; }
   .mx-section { padding: 56px 0; }
   .mx-section-tight { padding: 40px 0; }
+  .mx-section-head { margin-bottom: 32px; }
 }
 
 /* Accessibility — honour reduced motion */
