@@ -1286,6 +1286,61 @@ const description =
     color: var(--mx-gold);
     border-color: rgba(251, 191, 36, 0.4);
   }
+
+  /* ─── Accent rail on every section heading ──────────────────────────────
+     A short purple→gold gradient bar sits above each .mx-section-title to
+     make section themes pop and give the page a strong rhythmic anchor.
+     Lives on the eyebrow chip's container so it only renders when there's
+     a section head. */
+  .mx-section-head { position: relative; }
+  .mx-section-head::before {
+    content: '';
+    display: block;
+    width: 56px;
+    height: 3px;
+    margin: 0 auto 18px auto;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--mx-purple) 0%, var(--mx-gold) 100%);
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.35);
+  }
+
+  /* ─── Mobile polish ─────────────────────────────────────────────────────
+     ≤ 560px: hero CTAs stack full-width; KPI strip tightens; CTA banner
+     buttons stack; cards lose extra padding. Tested at iPhone SE width.  */
+  @media (max-width: 560px) {
+    .mx-hero { padding: 72px 0 56px 0; }
+    .mx-hero-cta {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+      margin-bottom: 36px;
+    }
+    .mx-hero-cta .mx-btn { width: 100%; }
+    .mx-hero-kpis {
+      gap: 14px;
+      padding: 12px 18px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .mx-kpi { min-width: 72px; }
+    .mx-kpi-value { font-size: 0.98rem; }
+    .mx-kpi-label { font-size: 0.6rem; letter-spacing: 1.2px; }
+    .mx-kpi-sep { display: none; }
+
+    .mx-trust-card { padding: 24px 22px; }
+
+    .mx-cta-banner { padding: 44px 22px; }
+    .mx-cta-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 100%;
+    }
+    .mx-cta-actions .mx-btn { width: 100%; }
+
+    .mx-section-head::before { width: 44px; height: 2px; }
+  }
 </style>
 
 <script is:inline>
