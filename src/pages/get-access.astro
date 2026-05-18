@@ -582,6 +582,23 @@ const FORMSUBMIT_ENDPOINT = 'https://formsubmit.co/ajax/service@moatrics.com';
   .mx-field-checkbox {
     gap: 4px;
   }
+  .mx-agree-card {
+    padding: 16px 18px;
+    border-radius: var(--mx-radius);
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid var(--mx-border);
+    transition: border-color 0.18s ease, background 0.18s ease;
+  }
+  .mx-agree-card:has(input[type='checkbox']:checked) {
+    border-color: rgba(251, 191, 36, 0.45);
+    background: rgba(251, 191, 36, 0.05);
+  }
+  .mx-agree-card:focus-within {
+    border-color: var(--mx-gold);
+  }
+  .mx-agree-card .mx-field-help {
+    margin-left: 32px;
+  }
   .mx-checkbox {
     display: flex;
     gap: 12px;
