@@ -2,15 +2,15 @@
 /**
  * Shared layout for /terms, /privacy, /disclaimer.
  *
- * Reads `legal.<key>` from i18n: title, updated_date, intro, sections[].{h,p}.
- * The page wrapper (PublicLayout) handles meta + nav + footer.
+ * Layout: 2-col on desktop (≥1024px) — sticky TOC sidebar + content.
+ * Mobile/tablet: single column, TOC collapsed into a <details> at the top.
  *
- * All visible copy dual-renders EN + ZH inline. Simple strings go through
- * the `<T>` component (which emits two siblings with `data-i18n-lang`);
- * the sections array is zipped into [en, zh] tuples and each row renders
- * paired `<h2>` / `<p>` siblings carrying the same attribute. Global CSS
- * hides whichever language doesn't match `<html lang>` so the swap is
- * instant and FOUC-free on first paint.
+ * Reads `legal.<key>` from i18n: title, updated_date, intro, sections[].{h,p}.
+ * All visible copy dual-renders EN + ZH via the `<T>` component (or the
+ * paired-sibling pattern for the dynamic sections array).
+ *
+ * Each section gets a stable `id` derived from its index (`sec-1`, `sec-2`, …)
+ * so anchor links work in both languages without needing slugified headings.
  */
 import T from './T.astro';
 import { getNode } from '../i18n';
@@ -25,8 +25,6 @@ type Section = { h: string; p: string };
 const sectionsEn = (getNode(`legal.${legalKey}.sections`, 'en') as Section[]) ?? [];
 const sectionsZh = (getNode(`legal.${legalKey}.sections`, 'zh') as Section[]) ?? [];
 // Zip into [en, zh] pairs so each row renders both languages as siblings.
-// If a ZH entry is missing for some reason, fall back to the EN copy so
-// the page never shows an empty heading or paragraph.
 const sectionPairs = sectionsEn.map(
   (en, i) => [en, sectionsZh[i] ?? en] as const,
 );
@@ -48,30 +46,140 @@ const CONTACT_EMAIL = 'service@moatrics.com';
       </p>
     </header>
 
-    <T k={`legal.${legalKey}.intro`} as="p" class="mx-legal-intro" />
+    <div class="mx-legal-grid">
+      {/* Mobile/tablet: collapsible TOC */}
+      <details class="mx-legal-toc-mobile">
+        <summary>
+          <span class="mx-toc-label"><T k="legal.toc_title" /></span>
+          <svg class="mx-toc-chev" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <nav class="mx-toc-list" aria-label="Table of contents (mobile)">
+          {sectionPairs.map(([en, zh], i) => (
+            <a href={`#sec-${i + 1}`} class="mx-toc-link">
+              <span class="mx-i18n" lang="en" data-i18n-lang="en">{en.h}</span>
+              <span class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.h}</span>
+            </a>
+          ))}
+        </nav>
+      </details>
 
-    <div class="mx-legal-body">
-      {sectionPairs.map(([en, zh]) => (
-        <section class="mx-legal-section">
-          <h2 class="mx-i18n" lang="en" data-i18n-lang="en">{en.h}</h2>
-          <h2 class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.h}</h2>
-          <p class="mx-i18n" lang="en" data-i18n-lang="en">{en.p}</p>
-          <p class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.p}</p>
-        </section>
-      ))}
+      {/* Desktop: sticky sidebar */}
+      <aside class="mx-legal-toc" aria-label="Table of contents">
+        <div class="mx-toc-inner">
+          <p class="mx-toc-title"><T k="legal.toc_title" /></p>
+          <nav>
+            <ol class="mx-toc-list">
+              {sectionPairs.map(([en, zh], i) => (
+                <li>
+                  <a href={`#sec-${i + 1}`} class="mx-toc-link" data-toc-id={`sec-${i + 1}`}>
+                    <span class="mx-i18n" lang="en" data-i18n-lang="en">{en.h}</span>
+                    <span class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.h}</span>
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+      </aside>
+
+      <div class="mx-legal-main">
+        <T k={`legal.${legalKey}.intro`} as="p" class="mx-legal-intro" />
+
+        <div class="mx-legal-body">
+          {sectionPairs.map(([en, zh], i) => (
+            <section class="mx-legal-section" id={`sec-${i + 1}`}>
+              <h2 class="mx-legal-h2 mx-i18n" lang="en" data-i18n-lang="en">
+                <a href={`#sec-${i + 1}`} class="mx-anchor" aria-label={`Link to ${en.h}`}>
+                  <span class="mx-anchor-sym" aria-hidden="true">#</span>
+                </a>
+                {en.h}
+              </h2>
+              <h2 class="mx-legal-h2 mx-i18n" lang="zh" data-i18n-lang="zh">
+                <a href={`#sec-${i + 1}`} class="mx-anchor" aria-label={`連結到 ${zh.h}`}>
+                  <span class="mx-anchor-sym" aria-hidden="true">#</span>
+                </a>
+                {zh.h}
+              </h2>
+              <p class="mx-i18n" lang="en" data-i18n-lang="en">{en.p}</p>
+              <p class="mx-i18n" lang="zh" data-i18n-lang="zh">{zh.p}</p>
+            </section>
+          ))}
+        </div>
+
+        <footer class="mx-legal-foot">
+          <p>
+            <T k="legal.contact_us_at" />{' '}
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+          </p>
+        </footer>
+      </div>
     </div>
-
-    <footer class="mx-legal-foot">
-      <p>
-        <T k="legal.contact_us_at" />{' '}
-        <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
-      </p>
-    </footer>
   </div>
+
+  {/* Floating back-to-top button */}
+  <button
+    type="button"
+    id="mx-back-to-top"
+    class="mx-back-to-top"
+    aria-label="Back to top"
+    data-visible="false"
+  >
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 5v14M5 12l7-7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <span class="mx-i18n" lang="en" data-i18n-lang="en">Top</span>
+    <span class="mx-i18n" lang="zh" data-i18n-lang="zh">頂端</span>
+  </button>
 </article>
 
+<script>
+  // Back-to-top visibility + smooth scroll
+  const btn = document.getElementById('mx-back-to-top') as HTMLButtonElement | null;
+  if (btn) {
+    const update = () => btn.setAttribute('data-visible', String(window.scrollY > 400));
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    btn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+    });
+  }
+
+  // TOC active-link highlighting via IntersectionObserver
+  const links = document.querySelectorAll<HTMLAnchorElement>('.mx-legal-toc .mx-toc-link[data-toc-id]');
+  const linkMap = new Map<string, HTMLAnchorElement>();
+  links.forEach((a) => {
+    const id = a.getAttribute('data-toc-id');
+    if (id) linkMap.set(id, a);
+  });
+
+  const sections = document.querySelectorAll<HTMLElement>('.mx-legal-section[id]');
+  if (sections.length && linkMap.size && 'IntersectionObserver' in window) {
+    const setActive = (id: string) => {
+      linkMap.forEach((a, key) => {
+        a.toggleAttribute('data-active', key === id);
+      });
+    };
+    const io = new IntersectionObserver(
+      (entries) => {
+        // Pick the topmost intersecting entry as active.
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActive(visible[0].target.id);
+      },
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 },
+    );
+    sections.forEach((s) => io.observe(s));
+  }
+</script>
+
 <style>
-  .mx-legal { padding: 64px 0 96px 0; }
+  .mx-legal { padding: 64px 0 96px 0; position: relative; }
 
   .mx-legal-back {
     display: inline-flex;
@@ -87,7 +195,7 @@ const CONTACT_EMAIL = 'service@moatrics.com';
   .mx-legal-back:hover { color: var(--mx-gold); }
 
   .mx-legal-head {
-    margin-bottom: 28px;
+    margin-bottom: 36px;
     padding-bottom: 28px;
     border-bottom: 1px solid var(--mx-border);
   }
@@ -108,6 +216,115 @@ const CONTACT_EMAIL = 'service@moatrics.com';
     margin: 0;
   }
 
+  /* ---- Layout grid ---- */
+  .mx-legal-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  @media (min-width: 1024px) {
+    .mx-legal-grid {
+      grid-template-columns: 240px minmax(0, 1fr);
+      gap: 56px;
+      align-items: start;
+    }
+  }
+
+  /* ---- Sidebar TOC (desktop) ---- */
+  .mx-legal-toc { display: none; }
+  @media (min-width: 1024px) {
+    .mx-legal-toc { display: block; }
+  }
+  .mx-toc-inner {
+    position: sticky;
+    top: 96px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding: 4px 4px 4px 0;
+  }
+  .mx-toc-title {
+    font-family: var(--mx-font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--mx-text-muted);
+    margin: 0 0 14px 0;
+  }
+  .mx-toc-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    counter-reset: toc;
+  }
+  .mx-toc-list li { display: block; }
+  .mx-toc-link {
+    display: block;
+    font-family: var(--mx-font-body);
+    font-size: 0.88rem;
+    line-height: 1.45;
+    color: var(--mx-text-muted);
+    padding: 8px 12px;
+    border-left: 2px solid transparent;
+    border-radius: 0 6px 6px 0;
+    transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+    text-decoration: none;
+  }
+  .mx-toc-link:hover {
+    color: var(--mx-text);
+    background: rgba(168, 85, 247, 0.06);
+  }
+  .mx-toc-link[data-active] {
+    color: var(--mx-gold);
+    border-left-color: var(--mx-gold);
+    background: rgba(251, 191, 36, 0.06);
+  }
+
+  /* ---- Mobile/tablet TOC (collapsible) ---- */
+  .mx-legal-toc-mobile {
+    display: block;
+    background: var(--mx-surface);
+    border: 1px solid var(--mx-border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  @media (min-width: 1024px) {
+    .mx-legal-toc-mobile { display: none; }
+  }
+  .mx-legal-toc-mobile > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    font-family: var(--mx-font-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--mx-text);
+    min-height: 48px;
+  }
+  .mx-legal-toc-mobile > summary::-webkit-details-marker { display: none; }
+  .mx-legal-toc-mobile[open] > summary { border-bottom: 1px solid var(--mx-border); }
+  .mx-toc-chev {
+    color: var(--mx-text-muted);
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .mx-legal-toc-mobile[open] .mx-toc-chev { transform: rotate(180deg); }
+  .mx-legal-toc-mobile .mx-toc-list {
+    padding: 6px 8px 10px 8px;
+  }
+  .mx-legal-toc-mobile .mx-toc-link {
+    border-left: none;
+    border-radius: 6px;
+  }
+
+  /* ---- Main column ---- */
+  .mx-legal-main { min-width: 0; }
   .mx-legal-intro {
     font-family: var(--mx-font-body);
     font-size: 1.05rem;
@@ -116,19 +333,42 @@ const CONTACT_EMAIL = 'service@moatrics.com';
     margin: 0 0 40px 0;
     max-width: 760px;
   }
-
   .mx-legal-body { max-width: 760px; }
 
   .mx-legal-section {
-    margin-bottom: 32px;
+    margin-bottom: 36px;
+    scroll-margin-top: 90px;
   }
-  .mx-legal-section h2 {
+  .mx-legal-h2 {
     font-family: var(--mx-font-display);
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--mx-gold);
-    margin: 0 0 10px 0;
+    margin: 0 0 12px 0;
     letter-spacing: -0.3px;
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .mx-anchor {
+    color: var(--mx-text-muted);
+    opacity: 0;
+    transition: opacity 0.18s ease, color 0.18s ease;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-left: -22px;
+    width: 22px;
+    flex-shrink: 0;
+  }
+  .mx-legal-section:hover .mx-anchor,
+  .mx-anchor:focus-visible {
+    opacity: 1;
+  }
+  .mx-anchor:hover { color: var(--mx-gold); }
+  /* On smaller screens, hide hover anchors (no hover). */
+  @media (max-width: 768px) {
+    .mx-anchor { display: none; }
   }
   .mx-legal-section p {
     font-family: var(--mx-font-body);
@@ -156,4 +396,59 @@ const CONTACT_EMAIL = 'service@moatrics.com';
     text-underline-offset: 3px;
   }
   .mx-legal-foot a:hover { color: var(--mx-purple-2); }
+
+  /* ---- Floating back-to-top ---- */
+  .mx-back-to-top {
+    position: fixed;
+    right: 20px;
+    bottom: 24px;
+    z-index: 40;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    min-height: 44px;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.16);
+    border: 1px solid rgba(251, 191, 36, 0.35);
+    color: var(--mx-text);
+    font-family: var(--mx-font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
+    transition: opacity 0.22s ease, transform 0.22s ease, background 0.18s ease, border-color 0.18s ease;
+  }
+  .mx-back-to-top[data-visible='true'] {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+  .mx-back-to-top:hover {
+    background: rgba(251, 191, 36, 0.16);
+    border-color: var(--mx-gold);
+    color: var(--mx-gold);
+  }
+  .mx-back-to-top:focus-visible {
+    outline: 2px solid var(--mx-gold);
+    outline-offset: 3px;
+  }
+  @media (max-width: 560px) {
+    .mx-back-to-top { right: 16px; bottom: 16px; padding: 10px 14px; }
+    .mx-back-to-top span { display: none; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mx-back-to-top,
+    .mx-toc-chev,
+    .mx-toc-link,
+    .mx-anchor {
+      transition: none;
+    }
+  }
 </style>
