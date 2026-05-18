@@ -136,8 +136,8 @@ const description =
                 </svg>
               )}
             </div>
-            <h3 class="mx-feature-title">{t(`home.features.items.${k}.title`)}</h3>
-            <p class="mx-feature-desc">{t(`home.features.items.${k}.desc`)}</p>
+            <T k={`home.features.items.${k}.title`} as="h3" class="mx-feature-title" />
+            <T k={`home.features.items.${k}.desc`} as="p" class="mx-feature-desc" />
           </article>
         ))}
       </div>
