@@ -307,6 +307,7 @@ const navLinks = [
     display: flex;
   }
   .mx-mobile-drawer-inner {
+    position: relative;
     margin: 90px auto 0 auto;
     padding: 32px 28px;
     width: min(360px, calc(100% - 32px));
@@ -314,6 +315,27 @@ const navLinks = [
     backdrop-filter: var(--mx-glass-blur);
     border: 1px solid var(--mx-glass-border);
     border-radius: var(--mx-radius-lg);
+  }
+  .mx-mobile-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(168, 85, 247, 0.06);
+    border: 1px solid var(--mx-border-strong);
+    border-radius: 999px;
+    color: var(--mx-text-2);
+    cursor: pointer;
+    transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+  }
+  .mx-mobile-close:hover {
+    color: var(--mx-gold);
+    border-color: rgba(251, 191, 36, 0.4);
+    background: rgba(251, 191, 36, 0.08);
   }
   .mx-mobile-links {
     list-style: none;
