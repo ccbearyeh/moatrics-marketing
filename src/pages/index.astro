@@ -73,12 +73,12 @@ const description =
     <div class="mx-hero-blob mx-hero-blob-b" aria-hidden="true"></div>
 
     <div class="mx-container mx-hero-inner">
-      <T k="home.hero.eyebrow" as="span" class="mx-eyebrow" />
-      <T k="home.hero.title" as="h1" class="mx-hero-title" />
-      <T k="home.hero.subtitle" as="p" class="mx-hero-subtitle" />
-      <T k="home.hero.trust_line" as="p" class="mx-hero-trust" />
+      <T k="home.hero.eyebrow" as="span" class="mx-eyebrow" data-reveal />
+      <T k="home.hero.title" as="h1" class="mx-hero-title" data-reveal data-reveal-delay="1" />
+      <T k="home.hero.subtitle" as="p" class="mx-hero-subtitle" data-reveal data-reveal-delay="2" />
+      <T k="home.hero.trust_line" as="p" class="mx-hero-trust" data-reveal data-reveal-delay="2" />
 
-      <div class="mx-hero-cta">
+      <div class="mx-hero-cta" data-reveal data-reveal-delay="3">
         <a class="mx-btn mx-btn-primary" href="/get-access">
           <T k="home.hero.cta_primary" />
         </a>
@@ -88,7 +88,7 @@ const description =
       </div>
 
       {/* KPI chip strip — the three durability/quality numbers we screen on */}
-      <ul role="list" class="mx-hero-kpis">
+      <ul role="list" class="mx-hero-kpis" data-reveal data-reveal-delay="3">
         <li class="mx-kpi">
           <T k="home.hero.kpi.roic.value" as="span" class="mx-kpi-value" />
           <T k="home.hero.kpi.roic.label" as="span" class="mx-kpi-label" />
