@@ -1543,16 +1543,15 @@ const description =
       });
     };
 
-    const start = () => {
-      if (prefersReducedMotion) return;
-      stop();
-      timer = window.setInterval(() => show(current + 1), ROTATE_MS);
-    };
     const stop = () => {
       if (timer != null) {
         window.clearInterval(timer);
         timer = null;
       }
+    };
+    const start = () => {
+      stop();
+      timer = window.setInterval(() => show(current + 1), ROTATE_MS);
     };
 
     dots.forEach((dot) => {
