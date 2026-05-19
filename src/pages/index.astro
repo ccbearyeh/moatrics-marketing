@@ -1571,8 +1571,6 @@ const description =
       dotsBar.addEventListener('mouseenter', stop);
       dotsBar.addEventListener('mouseleave', start);
     }
-    slider.addEventListener('focusin', stop);
-    slider.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => {
       if (document.hidden) stop();
       else start();
