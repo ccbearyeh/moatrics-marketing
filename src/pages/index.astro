@@ -849,11 +849,12 @@ const description =
     align-items: center;
   }
   .mx-feature-wide .mx-feature-icon { margin-bottom: 0; }
-  .mx-feature-wide .mx-feature-title { margin-bottom: 4px; }
-
-  /* Larger headings inside the two hero cards */
-  .mx-feature-lg .mx-feature-title { font-size: 1.45rem; }
-  .mx-feature-md .mx-feature-title { font-size: 1.3rem; }
+  .mx-feature-wide-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+  }
 
   .mx-feature-icon {
     width: 48px; height: 48px;
@@ -864,17 +865,32 @@ const description =
     align-items: center;
     justify-content: center;
     color: var(--mx-gold);
-    margin-bottom: 20px;
+    margin: 14px 0 18px 0;
   }
   .mx-feature-icon svg { width: 24px; height: 24px; }
-  .mx-feature-title {
+
+  /* Feature titles — pulled up top of card, enlarged, italic, brand gradient.
+     `:global()` needed because <T> renders the <h3> outside this file's scoped
+     CSS hash (same pattern as .mx-step-title / .mx-faq-a). */
+  :global(.mx-feature-title) {
     font-family: var(--mx-font-display);
-    font-size: 1.18rem;
-    font-weight: 600;
-    color: var(--mx-text);
-    margin: 0 0 10px 0;
-    letter-spacing: -0.3px;
+    font-size: 1.7rem;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.05;
+    margin: 0 0 4px 0;
+    background: linear-gradient(135deg, #fbbf24 0%, #c084fc 55%, #a855f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
+  /* Size-specific scaling */
+  :global(.mx-feature-lg .mx-feature-title) { font-size: 2.1rem; }
+  :global(.mx-feature-md .mx-feature-title) { font-size: 1.9rem; }
+  :global(.mx-feature-sm .mx-feature-title) { font-size: 1.55rem; }
+  :global(.mx-feature-wide .mx-feature-title) { font-size: 1.6rem; }
   .mx-feature-desc {
     font-family: var(--mx-font-body);
     font-size: 0.95rem;
