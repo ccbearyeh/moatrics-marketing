@@ -88,8 +88,8 @@
           "desc": "Track on-sale opportunities and re-evaluate as fundamentals shift."
         },
         "gurus": {
-          "title": "Guru Tracker",
-          "desc": "Follow the moves of the world's most respected value investors."
+          "title": "Master Tracker",
+          "desc": "Follow the moves of the world's most respected value investing masters."
         },
         "journal": {
           "title": "Trade Journal",
@@ -158,7 +158,7 @@
         "features": [
           "Up to 10 stocks on watchlist",
           "Basic valuation models",
-          "Public guru tracker",
+          "Public master tracker",
           "Educational resources"
         ],
         "cta": "Request Access"
