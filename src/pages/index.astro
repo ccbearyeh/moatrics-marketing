@@ -1419,6 +1419,67 @@ const description =
 </style>
 
 <script is:inline>
+  // Hero slider: auto-rotate every 7s, pause on hover / when tab hidden /
+  // on manual dot click. Honors prefers-reduced-motion (no auto-advance,
+  // manual navigation still works).
+  (function () {
+    const slider = document.querySelector('[data-hero-slider]');
+    if (!slider) return;
+    const slides = slider.querySelectorAll('.mx-hero-slide');
+    const dots = slider.querySelectorAll('.mx-hero-dot');
+    if (slides.length < 2 || dots.length !== slides.length) return;
+
+    const ROTATE_MS = 7000;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = 0;
+    let timer = null;
+
+    const show = (idx) => {
+      current = ((idx % slides.length) + slides.length) % slides.length;
+      slides.forEach((s, i) => {
+        const active = i === current;
+        s.classList.toggle('mx-hero-slide-active', active);
+        s.setAttribute('aria-hidden', active ? 'false' : 'true');
+      });
+      dots.forEach((d, i) => {
+        const active = i === current;
+        d.classList.toggle('mx-hero-dot-active', active);
+        d.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    };
+
+    const start = () => {
+      if (prefersReducedMotion) return;
+      stop();
+      timer = window.setInterval(() => show(current + 1), ROTATE_MS);
+    };
+    const stop = () => {
+      if (timer != null) {
+        window.clearInterval(timer);
+        timer = null;
+      }
+    };
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const idx = parseInt(dot.getAttribute('data-dot') || '0', 10);
+        show(idx);
+        start(); // reset timer so user gets full dwell after clicking
+      });
+    });
+
+    slider.addEventListener('mouseenter', stop);
+    slider.addEventListener('mouseleave', start);
+    slider.addEventListener('focusin', stop);
+    slider.addEventListener('focusout', start);
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) stop();
+      else start();
+    });
+
+    start();
+  })();
+
   // Vanilla JS billing toggle (Free is static, Pro price swaps between
   // data-monthly/data-annually values). No framework, no client hydration.
   (function () {
