@@ -352,11 +352,12 @@ const description =
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
             >
-              <span class="mx-step-num" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <T k={`home.how_it_works.steps.${k}.label`} as="span" class="mx-step-label" />
-              <T k={`home.how_it_works.steps.${k}.title`} as="h3" class="mx-step-title" />
+              <header class="mx-step-header">
+                <span class="mx-step-num" aria-hidden="true">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <T k={`home.how_it_works.steps.${k}.title`} as="h3" class="mx-step-title" />
+              </header>
               <T k={`home.how_it_works.steps.${k}.desc`} as="p" class="mx-step-desc" />
             </article>
           ))}
