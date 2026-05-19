@@ -1556,8 +1556,15 @@ const description =
       });
     });
 
-    slider.addEventListener('mouseenter', stop);
-    slider.addEventListener('mouseleave', start);
+    // Only pause when hovering the dot nav (so users can click without the
+    // slide flipping under them). Hovering the slide content itself does NOT
+    // pause — otherwise the hero never auto-rotates because the cursor is
+    // always somewhere in this large area.
+    const dotsBar = slider.querySelector('.mx-hero-dots');
+    if (dotsBar) {
+      dotsBar.addEventListener('mouseenter', stop);
+      dotsBar.addEventListener('mouseleave', start);
+    }
     slider.addEventListener('focusin', stop);
     slider.addEventListener('focusout', start);
     document.addEventListener('visibilitychange', () => {
