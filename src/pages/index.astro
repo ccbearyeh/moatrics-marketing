@@ -1426,28 +1426,35 @@ const description =
       0 8px 32px rgba(0, 0, 0, 0.45),
       0 0 60px rgba(251, 191, 36, 0.08);
   }
-  .mx-cta-title {
+  :global(.mx-cta-title) {
     font-family: var(--mx-font-display);
-    font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-    font-weight: 700;
-    color: var(--mx-text);
-    margin: 0 0 14px 0;
-    letter-spacing: -1px;
-    line-height: 1.15;
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    font-weight: 800;
+    margin: 0 0 16px 0;
+    letter-spacing: -1.2px;
+    line-height: 1.12;
+    background: linear-gradient(135deg, #fafafa 0%, #d4d4d8 55%, #fbbf24 110%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
   }
-  .mx-cta-sub {
-    font-family: var(--mx-font-body);
-    font-size: 1rem;
-    color: var(--mx-text-muted);
-    max-width: 560px;
-    margin: 0 auto 28px auto;
-    line-height: 1.6;
+  :global(.mx-cta-sub) {
+    font-family: var(--mx-font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+    color: var(--mx-text);
+    opacity: 0.9;
+    max-width: 620px;
+    margin: 0 auto 40px auto;
+    line-height: 1.5;
   }
   .mx-cta-actions {
     display: inline-flex;
     gap: 12px;
     flex-wrap: wrap;
     justify-content: center;
+    margin-top: 8px;
   }
   .mx-btn-ghost {
     background: transparent;
