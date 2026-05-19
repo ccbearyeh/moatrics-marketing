@@ -25,7 +25,7 @@
   "home": {
     "hero": {
       "eyebrow": "早期僅開放邀請註冊",
-      "title": "投資優質的企業。當價值被低估時。",
+      "title": "投資優質的企業，\n當價值被低估時",
       "subtitle": "為長期價值投資人打造的數據導向決策助手",
       "trust_line": "嚴謹的價值投資方法論,結合即時財務數據。",
       "cta_primary": "申請使用",
@@ -184,10 +184,10 @@
 
     "preview": {
       "section_eyebrow": "Moatrics 介面預覽",
-      "section_title": "你的研究,集中在一個工作平台。",
-      "section_subtitle": "篩選、估值、追蹤優質企業 — 全部在同一個專為長期投資人打造的工作空間。",
+      "section_title": "你的研究,集中在一個工作平台",
+      "section_subtitle": "篩選、估值、追蹤優質企業 — 全部在同一個專為長期投資人打造的工作空間",
       "caption_title": "個股分析 · 即時",
-      "caption_subtitle": "故事 · 護城河 · 三角估值"
+      "caption_subtitle": "商業模式 · 護城河 · 三角估值"
     },
 
     "faq": {
@@ -241,6 +241,7 @@
       "features": "功能",
       "how_it_works": "運作方式",
       "pricing": "方案",
+      "faq": "常見問題",
       "about": "團隊",
       "contact": "聯絡",
       "terms": "服務條款",
