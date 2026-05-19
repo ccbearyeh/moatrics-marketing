@@ -589,43 +589,73 @@ const description =
     text-align: center;
     max-width: 880px;
   }
-  .mx-hero-title {
+  /* Hero glass panel — wraps eyebrow/title/subtitle/trust/cta in a soft glass card.
+     Uses :global() because <T> dual-renders content outside this page's Astro scope. */
+  .mx-hero-card {
+    position: relative;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 56px 56px 48px 56px;
+    border-radius: 28px;
+    background:
+      radial-gradient(120% 80% at 50% 0%, rgba(168, 85, 247, 0.14), transparent 60%),
+      radial-gradient(120% 80% at 50% 100%, rgba(251, 191, 36, 0.08), transparent 60%),
+      var(--mx-glass-bg);
+    box-shadow:
+      0 30px 80px -20px rgba(0, 0, 0, 0.55),
+      inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  }
+  :global(.mx-hero-card .mx-eyebrow) {
+    display: inline-block;
+    margin-bottom: 18px;
+  }
+  :global(.mx-hero-title) {
     font-family: var(--mx-font-display);
-    font-weight: 700;
-    font-size: clamp(2.4rem, 6vw, 4.4rem);
+    font-weight: 800;
+    font-size: clamp(2.6rem, 5.8vw, 4.4rem);
     line-height: 1.04;
     letter-spacing: -2px;
     margin: 0 0 22px 0;
     color: var(--mx-text);
-    background: linear-gradient(135deg, #fafafa 0%, #d4d4d8 60%, #fbbf24 110%);
+    background: linear-gradient(135deg, #fafafa 0%, #d4d4d8 55%, #fbbf24 110%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  .mx-hero-subtitle {
-    font-family: var(--mx-font-body);
-    font-size: clamp(1.05rem, 1.5vw, 1.2rem);
-    color: var(--mx-text-muted);
-    max-width: 620px;
-    margin: 0 auto 14px auto;
-    line-height: 1.55;
+  :global(.mx-hero-subtitle) {
+    font-family: var(--mx-font-display);
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+    color: var(--mx-text);
+    opacity: 0.92;
+    max-width: 680px;
+    margin: 0 auto 18px auto;
+    line-height: 1.5;
   }
-  .mx-hero-trust {
+  :global(.mx-hero-trust) {
     font-family: var(--mx-font-mono);
     font-size: 0.78rem;
     letter-spacing: 1.6px;
     text-transform: uppercase;
     color: var(--mx-gold);
-    margin: 0 auto 32px auto;
+    margin: 0 auto 44px auto;
     max-width: 620px;
     line-height: 1.5;
+    opacity: 0.9;
   }
   .mx-hero-cta {
     display: inline-flex;
     gap: 14px;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 0;
+    margin: 8px 0 0 0;
+  }
+  @media (max-width: 640px) {
+    .mx-hero-card {
+      padding: 40px 24px 36px 24px;
+      border-radius: 22px;
+    }
   }
 
   /* ── Hero slider ────────────────────────────────────────────────────────
