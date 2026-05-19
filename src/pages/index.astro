@@ -1321,7 +1321,9 @@ const description =
     transform: rotate(180deg);
     border-color: rgba(251, 191, 36, 0.4);
   }
-  .mx-faq-a {
+  /* Same reason as .mx-faq-q-text above: T-rendered <p> lives outside the
+     parent's scope hash, so we use :global() so the padding actually lands. */
+  :global(.mx-faq-a) {
     font-family: var(--mx-font-body);
     font-size: 0.96rem;
     color: var(--mx-text-muted);
