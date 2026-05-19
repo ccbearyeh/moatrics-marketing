@@ -19,10 +19,13 @@ const CONTACT_EMAIL = 'service@moatrics.com';
 // Each entry pairs an href with the dotted-path translation key.
 // <T k={l.k} /> renders both EN + ZH copies inline; the CSS in global.css
 // hides the inactive language version on the fly.
+// Keep in sync with Navbar.astro `navLinks`. The footer Product column mirrors
+// the on-page anchors in the top nav; Sign In is appended below.
 const productLinks = [
   { href: '/#features',     k: 'footer.links.features' },
   { href: '/#how-it-works', k: 'footer.links.how_it_works' },
   { href: '/#pricing',      k: 'footer.links.pricing' },
+  { href: '/#faq',          k: 'footer.links.faq' },
 ];
 
 const companyLinks = [
