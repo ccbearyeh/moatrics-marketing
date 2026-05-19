@@ -251,12 +251,10 @@ const description =
       </div>
 
       <div class="mx-bento">
-        {featureLayout.map(({ k, size }, i) => (
-          <article
-            class={`mx-feature mx-glass mx-feature-${size}`}
-            data-reveal
-            data-reveal-delay={String((i % 3) + 1)}
-          >
+        {featureLayout.map(({ k, size }, i) => {
+          /* Icon block — kept as a sub-expression so we can reorder
+             markup based on card size below (wide = icon-left layout). */
+          const iconSvg = (
             <div class="mx-feature-icon" aria-hidden="true">
               {k === 'moat' && (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
@@ -265,12 +263,14 @@ const description =
                   <path d="M3 14h18" />
                 </svg>
               )}
+              {/* Triangulated Valuation — three overlapping circles symbolize
+                  three valuation lenses (CapRate / MOS / Payback) converging
+                  on intrinsic value. Old "tuning fork" SVG was unreadable. */}
               {k === 'valuation' && (
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M12 3v18" />
-                  <path d="M5 8h14" />
-                  <path d="M5 8l-2 6a4 4 0 0 0 8 0L9 8" />
-                  <path d="M19 8l-2 6a4 4 0 0 0 8 0l-2-6" />
+                  <circle cx="9" cy="10" r="4.5" />
+                  <circle cx="15" cy="10" r="4.5" />
+                  <circle cx="12" cy="15.5" r="4.5" />
                 </svg>
               )}
               {k === 'screener' && (
@@ -300,10 +300,33 @@ const description =
                 </svg>
               )}
             </div>
-            <T k={`home.features.items.${k}.title`} as="h3" class="mx-feature-title" />
-            <T k={`home.features.items.${k}.desc`} as="p" class="mx-feature-desc" />
-          </article>
-        ))}
+          );
+          const titleEl = <T k={`home.features.items.${k}.title`} as="h3" class="mx-feature-title" />;
+          const descEl = <T k={`home.features.items.${k}.desc`} as="p" class="mx-feature-desc" />;
+          return (
+            <article
+              class={`mx-feature mx-glass mx-feature-${size}`}
+              data-reveal
+              data-reveal-delay={String((i % 3) + 1)}
+            >
+              {size === 'wide' ? (
+                <>
+                  {iconSvg}
+                  <div class="mx-feature-wide-content">
+                    {titleEl}
+                    {descEl}
+                  </div>
+                </>
+              ) : (
+                <>
+                  {titleEl}
+                  {iconSvg}
+                  {descEl}
+                </>
+              )}
+            </article>
+          );
+        })}
       </div>
     </div>
   </section>
