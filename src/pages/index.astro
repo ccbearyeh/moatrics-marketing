@@ -88,18 +88,20 @@ const description =
         aria-hidden="false"
       >
         <div class="mx-container mx-hero-inner">
-          <T k="home.hero.eyebrow" as="span" class="mx-eyebrow" data-reveal />
-          <T k="home.hero.title" as="h1" class="mx-hero-title" data-reveal data-reveal-delay="1" />
-          <T k="home.hero.subtitle" as="p" class="mx-hero-subtitle" data-reveal data-reveal-delay="2" />
-          <T k="home.hero.trust_line" as="p" class="mx-hero-trust" data-reveal data-reveal-delay="2" />
+          <div class="mx-hero-card mx-glass">
+            <T k="home.hero.eyebrow" as="span" class="mx-eyebrow" data-reveal />
+            <T k="home.hero.title" as="h1" class="mx-hero-title" data-reveal data-reveal-delay="1" />
+            <T k="home.hero.subtitle" as="p" class="mx-hero-subtitle" data-reveal data-reveal-delay="2" />
+            <T k="home.hero.trust_line" as="p" class="mx-hero-trust" data-reveal data-reveal-delay="2" />
 
-          <div class="mx-hero-cta" data-reveal data-reveal-delay="3">
-            <a class="mx-btn mx-btn-primary" href="/get-access">
-              <T k="home.hero.cta_primary" />
-            </a>
-            <a class="mx-btn mx-btn-secondary" href="#how-it-works">
-              <T k="home.hero.cta_secondary" />
-            </a>
+            <div class="mx-hero-cta" data-reveal data-reveal-delay="3">
+              <a class="mx-btn mx-btn-primary" href="/get-access">
+                <T k="home.hero.cta_primary" />
+              </a>
+              <a class="mx-btn mx-btn-secondary" href="#how-it-works">
+                <T k="home.hero.cta_secondary" />
+              </a>
+            </div>
           </div>
         </div>
       </div>
