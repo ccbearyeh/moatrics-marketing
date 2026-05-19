@@ -613,7 +613,7 @@ const description =
     font-family: var(--mx-font-display);
     font-weight: 800;
     font-size: clamp(2.6rem, 5.8vw, 4.4rem);
-    line-height: 1.04;
+    line-height: 1.08;
     letter-spacing: -2px;
     margin: 0 0 22px 0;
     color: var(--mx-text);
@@ -621,6 +621,9 @@ const description =
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Honor `\n` in the translation so the two clauses always break at the
+       comma rather than wherever the container width happens to wrap. */
+    white-space: pre-line;
   }
   :global(.mx-hero-subtitle) {
     font-family: var(--mx-font-display);
