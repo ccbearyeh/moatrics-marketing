@@ -780,13 +780,21 @@ const description =
     color: var(--mx-purple-2);
     opacity: 0.5;
   }
-  .mx-trust-card-title {
+  /* Trust card titles — italic, brand gradient, matches feature/step titles.
+     `:global()` because <T> renders the <h3> outside scoped CSS hash. */
+  :global(.mx-trust-card-title) {
     font-family: var(--mx-font-display);
-    font-size: 1.12rem;
-    font-weight: 600;
-    color: var(--mx-gold);
-    margin: 0 0 12px 0;
-    letter-spacing: -0.3px;
+    font-size: 1.7rem;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    line-height: 1.1;
+    margin: 0 0 14px 0;
+    background: linear-gradient(135deg, #fbbf24 0%, #c084fc 55%, #a855f7 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
   .mx-trust-card-desc {
     font-family: var(--mx-font-body);
@@ -795,8 +803,24 @@ const description =
     line-height: 1.6;
     margin: 0;
   }
+
+  /* "Quality businesses. Durable moats. Margin of safety." — section subtitle
+     gets italic display treatment so it reads like a tagline, not body copy.
+     Scoped to #why so other sections' subtitles stay unaffected. */
+  :global(#why .mx-section-sub) {
+    font-family: var(--mx-font-display);
+    font-style: italic;
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+    color: var(--mx-text);
+    opacity: 0.92;
+  }
+
   @media (max-width: 768px) {
     .mx-trust-grid { grid-template-columns: 1fr; }
+    :global(.mx-trust-card-title) { font-size: 1.45rem; }
+    :global(#why .mx-section-sub) { font-size: 1.1rem; }
   }
 
   /* ─── Features (Bento) ───────────────────────────────────────────────── */
