@@ -833,21 +833,20 @@ const description =
   .mx-feature-wide {
     grid-column: span 12;
     padding: 28px 32px;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 22px;
-    align-items: center;
   }
-  .mx-feature-wide .mx-feature-icon { margin-bottom: 0; }
-  .mx-feature-wide-content {
+
+  /* Unified header row — every card uses icon-on-left + title beside it.
+     Matches the Trade Journal (wide) card layout that the user liked. */
+  .mx-feature-header {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
-    min-width: 0;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 14px;
   }
 
   .mx-feature-icon {
     width: 48px; height: 48px;
+    flex: 0 0 48px;
     border-radius: 14px;
     background: rgba(168, 85, 247, 0.08);
     border: 1px solid var(--mx-border-strong);
@@ -855,32 +854,27 @@ const description =
     align-items: center;
     justify-content: center;
     color: var(--mx-gold);
-    margin: 14px 0 18px 0;
+    margin: 0;
   }
   .mx-feature-icon svg { width: 24px; height: 24px; }
 
-  /* Feature titles — pulled up top of card, enlarged, italic, brand gradient.
-     `:global()` needed because <T> renders the <h3> outside this file's scoped
-     CSS hash (same pattern as .mx-step-title / .mx-faq-a). */
+  /* Feature titles — italic, brand gradient, uniform size across all cards.
+     `:global()` needed because <T> renders the <h3> outside this file's
+     scoped CSS hash (same pattern as .mx-step-title / .mx-faq-a). */
   :global(.mx-feature-title) {
     font-family: var(--mx-font-display);
     font-size: 1.7rem;
     font-style: italic;
     font-weight: 700;
     letter-spacing: -0.6px;
-    line-height: 1.05;
-    margin: 0 0 4px 0;
+    line-height: 1.1;
+    margin: 0;
     background: linear-gradient(135deg, #fbbf24 0%, #c084fc 55%, #a855f7 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
     color: transparent;
   }
-  /* Size-specific scaling */
-  :global(.mx-feature-lg .mx-feature-title) { font-size: 2.1rem; }
-  :global(.mx-feature-md .mx-feature-title) { font-size: 1.9rem; }
-  :global(.mx-feature-sm .mx-feature-title) { font-size: 1.55rem; }
-  :global(.mx-feature-wide .mx-feature-title) { font-size: 1.6rem; }
   .mx-feature-desc {
     font-family: var(--mx-font-body);
     font-size: 0.95rem;
