@@ -309,21 +309,11 @@ const description =
               data-reveal
               data-reveal-delay={String((i % 3) + 1)}
             >
-              {size === 'wide' ? (
-                <>
-                  {iconSvg}
-                  <div class="mx-feature-wide-content">
-                    {titleEl}
-                    {descEl}
-                  </div>
-                </>
-              ) : (
-                <>
-                  {titleEl}
-                  {iconSvg}
-                  {descEl}
-                </>
-              )}
+              <div class="mx-feature-header">
+                {iconSvg}
+                {titleEl}
+              </div>
+              {descEl}
             </article>
           );
         })}
