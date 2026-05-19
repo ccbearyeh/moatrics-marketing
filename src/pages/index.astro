@@ -901,37 +901,48 @@ const description =
     position: relative;
     padding: 32px 28px;
   }
+  /* Header row: ghost number on the left, headline title pinned top-right.
+     baseline alignment so the italic title's descenders sit nicely against
+     the giant numeral. */
+  .mx-step-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
   .mx-step-num {
-    display: block;
     font-family: var(--mx-font-display);
-    font-size: 2.2rem;
+    font-size: 2.6rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.18);
+    letter-spacing: -2px;
+    line-height: 0.9;
+    flex: 0 0 auto;
+  }
+  /* Top-right headline — enlarged, italic display, brand gradient.
+     `:global()` needed because <T> renders the <h3> outside this file's
+     scoped CSS hash (see FAQ-a comment elsewhere). */
+  :global(.mx-step-title) {
+    font-family: var(--mx-font-display);
+    font-size: 2rem;
+    font-style: italic;
     font-weight: 700;
-    color: var(--mx-text);
-    letter-spacing: -1.6px;
-    margin-bottom: 4px;
-    background: linear-gradient(135deg, #fbbf24 0%, #a855f7 100%);
+    letter-spacing: -1px;
+    line-height: 1;
+    margin: 0;
+    text-align: right;
+    background: linear-gradient(135deg, #fbbf24 0%, #c084fc 55%, #a855f7 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    line-height: 1;
   }
-  .mx-step-label {
-    font-family: var(--mx-font-mono);
-    font-size: 0.66rem;
-    font-weight: 500;
-    letter-spacing: 2.2px;
-    text-transform: uppercase;
-    color: var(--mx-text-muted);
-    display: block;
-    margin-bottom: 14px;
+  @media (max-width: 1024px) {
+    :global(.mx-step-title) { font-size: 1.75rem; }
   }
-  .mx-step-title {
-    font-family: var(--mx-font-display);
-    font-size: 1.35rem;
-    font-weight: 600;
-    color: var(--mx-text);
-    margin: 0 0 12px 0;
-    letter-spacing: -0.4px;
+  @media (max-width: 480px) {
+    :global(.mx-step-title) { font-size: 1.55rem; }
+    .mx-step-num { font-size: 2.2rem; }
   }
   .mx-step-desc {
     font-family: var(--mx-font-body);
