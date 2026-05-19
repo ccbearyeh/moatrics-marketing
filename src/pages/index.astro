@@ -1295,7 +1295,10 @@ const description =
     user-select: none;
   }
   .mx-faq-q::-webkit-details-marker { display: none; }
-  .mx-faq-q-text {
+  /* `<T>` child renders without the parent's astro-cid scope attribute, so
+     the bare class selector would not match. `:global()` lets the rule
+     escape Astro's scoped CSS pass while staying co-located with the FAQ. */
+  :global(.mx-faq-q-text) {
     font-family: var(--mx-font-display);
     font-size: 1.02rem;
     font-weight: 600;
