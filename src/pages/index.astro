@@ -1514,9 +1514,10 @@ const description =
 </style>
 
 <script is:inline>
-  // Hero slider: auto-rotate every 5s, pause on hover / when tab hidden /
-  // on manual dot click. Honors prefers-reduced-motion (no auto-advance,
-  // manual navigation still works).
+  // Hero slider: auto-rotate every 5s, pause on dot-bar hover / when tab
+  // hidden. Reduced-motion preferences are honored via CSS (fade compressed
+  // to 0.2s) rather than disabling auto-advance entirely — the rotation
+  // itself still happens, just without animation.
   (function () {
     const slider = document.querySelector('[data-hero-slider]');
     if (!slider) return;
@@ -1525,7 +1526,6 @@ const description =
     if (slides.length < 2 || dots.length !== slides.length) return;
 
     const ROTATE_MS = 5000;
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     let current = 0;
     let timer = null;
 
