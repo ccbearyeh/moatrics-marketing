@@ -580,7 +580,9 @@ const description =
   /* ─── Hero ───────────────────────────────────────────────────────────── */
   .mx-hero {
     position: relative;
-    padding: 120px 0 88px 0;
+    /* Trimmed top 120→96 to lift the hero card (and its CTA) toward the fold
+       on laptop viewports without crowding the sticky navbar. */
+    padding: 96px 0 80px 0;
     overflow: hidden;
   }
   .mx-hero-inner {
