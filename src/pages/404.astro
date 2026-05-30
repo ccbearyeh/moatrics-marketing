@@ -1,0 +1,203 @@
+---
+/**
+ * Branded 404 page.
+ *
+ * Astro emits this as `dist/404.html` on build. nginx must be told to serve it
+ * for unmatched paths via `error_page 404 /404.html;` — that VM/nginx wiring is
+ * a separate deploy-time step (see DEPLOY.md), not part of this static build.
+ *
+ * Mirrors the branded-page pattern (PublicLayout → Navbar + slot + Footer).
+ * All visible copy goes through <T> so it dual-renders EN + ZH inline; CSS in
+ * global.css swaps visibility based on <html lang>. noindex so search engines
+ * don't index the error page itself.
+ */
+import PublicLayout from '../layouts/PublicLayout.astro';
+import T from '../components/T.astro';
+import { t } from '../i18n';
+
+const APP_BASE = 'https://app.moatrics.com';
+
+// Server-side meta strings default to EN (t() with no lang arg).
+const pageTitle = `${t('errors.notfound.page_title')} — Moatrics`;
+const description = t('errors.notfound.description');
+
+// Reuse the footer Product-column keys for the "or jump to" row so the labels
+// stay in sync with the rest of the site. Absolute hrefs (not bare #anchors)
+// because the 404 can render at any unmatched path, not just the homepage.
+const helpfulLinks = [
+  { href: '/#how-it-works', k: 'footer.links.how_it_works' },
+  { href: '/#pricing',      k: 'footer.links.pricing' },
+  { href: '/#faq',          k: 'footer.links.faq' },
+  { href: `${APP_BASE}/`,   k: 'nav.signin' },
+];
+---
+
+<PublicLayout title={pageTitle} description={description} path="/404" noindex={true}>
+  <section class="mx-404">
+    <div class="mx-container mx-404-inner">
+      <div class="mx-404-card mx-glass">
+        <p class="mx-404-code" aria-hidden="true">404</p>
+        <T as="h1" k="errors.notfound.title" class="mx-404-title" />
+        <T as="p" k="errors.notfound.body" class="mx-404-body" />
+
+        <div class="mx-404-cta">
+          <a class="mx-btn mx-btn-primary" href="/">
+            <T k="errors.notfound.cta_home" />
+          </a>
+          <a class="mx-btn mx-btn-secondary" href="/#features">
+            <T k="errors.notfound.cta_features" />
+          </a>
+        </div>
+
+        <div class="mx-404-links">
+          <span class="mx-404-links-label"><T k="errors.notfound.helpful" /></span>
+          <ul role="list" class="mx-404-links-list">
+            {helpfulLinks.map((l) => (
+              <li><a href={l.href}><T k={l.k} /></a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</PublicLayout>
+
+<style>
+  .mx-404 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Clear the sticky navbar at the top and leave breathing room below so the
+       card sits optically centred in the viewport. */
+    min-height: 68vh;
+    padding: 120px 0 96px 0;
+  }
+  .mx-404-inner {
+    display: flex;
+    justify-content: center;
+  }
+  .mx-404-card {
+    width: 100%;
+    max-width: 640px;
+    padding: 56px 56px 48px 56px;
+    border-radius: var(--mx-radius-xl);
+    text-align: center;
+    /* Hero-style soft radial wash so the card reads as a focal element rather
+       than a flat panel. */
+    background-image:
+      radial-gradient(120% 120% at 50% 0%, rgba(168, 85, 247, 0.10) 0%, transparent 60%),
+      var(--mx-glass-bg);
+  }
+
+  /* Big gradient numeral — authored directly in this page, so it keeps the
+     astro scope hash and a normal scoped selector matches it. */
+  .mx-404-code {
+    font-family: var(--mx-font-display);
+    font-weight: 700;
+    font-size: clamp(5rem, 18vw, 9rem);
+    line-height: 0.92;
+    letter-spacing: -3px;
+    margin: 0 0 8px 0;
+    background: linear-gradient(135deg, #c084fc 0%, #a855f7 35%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Italic-free, but keep a hair of right padding so the gradient never clips
+       the final glyph's edge on sub-pixel rounding. */
+    padding-right: 0.05em;
+  }
+
+  /* :global() — these two are rendered by <T as="..."> and therefore lose this
+     page's scope hash. Without :global() the selectors would never match. */
+  :global(.mx-404-title) {
+    font-family: var(--mx-font-display);
+    font-weight: 700;
+    font-size: clamp(1.5rem, 4vw, 2.1rem);
+    line-height: 1.2;
+    color: var(--mx-text);
+    margin: 0 0 14px 0;
+  }
+  :global(.mx-404-body) {
+    font-family: var(--mx-font-body);
+    font-size: 1.02rem;
+    line-height: 1.65;
+    color: var(--mx-text-2);
+    max-width: 46ch;
+    margin: 0 auto 32px auto;
+  }
+
+  .mx-404-cta {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .mx-404-links {
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--mx-border);
+  }
+  .mx-404-links-label {
+    display: block;
+    font-family: var(--mx-font-mono);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 2.4px;
+    text-transform: uppercase;
+    color: var(--mx-gold);
+    opacity: 0.85;
+    margin-bottom: 14px;
+  }
+  .mx-404-links-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 4px;
+  }
+  .mx-404-links-list a {
+    /* 44px min touch target (a11y) with comfortable hit area. */
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 14px;
+    border-radius: var(--mx-radius-sm);
+    font-family: var(--mx-font-body);
+    font-size: 0.92rem;
+    color: var(--mx-text-2);
+    transition: color 0.18s ease, background-color 0.18s ease;
+  }
+  .mx-404-links-list a:hover {
+    color: var(--mx-gold);
+    background: rgba(168, 85, 247, 0.08);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mx-404-card {
+      animation: mx-404-rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes mx-404-rise {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  }
+
+  @media (max-width: 560px) {
+    .mx-404 {
+      padding: 96px 0 72px 0;
+      min-height: 60vh;
+    }
+    .mx-404-card {
+      padding: 40px 24px 32px 24px;
+    }
+    .mx-404-cta {
+      flex-direction: column;
+    }
+    .mx-404-cta .mx-btn {
+      width: 100%;
+    }
+  }
+</style>
