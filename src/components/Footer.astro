@@ -180,12 +180,59 @@ const legalLinks = [
     color: var(--mx-text-2);
     margin: 0 0 14px 0;
   }
-  .mx-footer-disclaimer {
+  /* Full-width risk-disclosure strip — relocated out of the brand column so the
+     legally-important disclaimer reads as a deliberate notice rather than fine
+     print. Owns the single divider line above the copyright row. */
+  .mx-footer-risk {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px 32px;
+    padding-top: 28px;
+    margin-bottom: 28px;
+    border-top: 1px solid var(--mx-border);
+  }
+  .mx-footer-risk-main {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    /* Grow to fill, but allow the link to wrap beneath on narrow widths. */
+    flex: 1 1 520px;
+  }
+  .mx-footer-risk-icon {
+    flex-shrink: 0;
+    margin-top: 1px;
+    color: var(--mx-gold);
+    opacity: 0.9;
+  }
+  /* :global() — rendered via <T as="p">, so it carries no Footer scope hash
+     and a scoped selector would never match it. */
+  :global(.mx-footer-risk-text) {
+    margin: 0;
     font-family: var(--mx-font-body);
     font-size: 0.82rem;
-    color: var(--mx-text-muted);
-    line-height: 1.55;
-    margin: 0;
+    line-height: 1.6;
+    color: var(--mx-text-2);
+  }
+  .mx-footer-risk-link {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    white-space: nowrap;
+    font-family: var(--mx-font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--mx-gold);
+    transition: color 0.18s ease;
+  }
+  .mx-footer-risk-link svg { transition: transform 0.18s ease; }
+  .mx-footer-risk-link:hover { color: var(--mx-gold-2); }
+  .mx-footer-risk-link:hover svg { transform: translateX(3px); }
+  @media (prefers-reduced-motion: reduce) {
+    .mx-footer-risk-link svg { transition: none; }
   }
 
   /* :global() because <T as="h3"> renders outside this component's scope.
