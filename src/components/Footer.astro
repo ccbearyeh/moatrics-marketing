@@ -89,6 +89,43 @@ const legalLinks = [
       </div>
     </div>
 
+    <div class="mx-footer-risk" role="note" aria-label="Risk disclosure">
+      <svg
+        class="mx-footer-risk-icon"
+        viewBox="0 0 24 24"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0Z" />
+        <line x1="12" y1="9" x2="12" y2="13" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+      <T k="footer.disclaimer_short" as="p" class="mx-footer-risk-text" />
+      <a href="/disclaimer" class="mx-footer-risk-link">
+        <T k="footer.read_disclaimer" />
+        <svg
+          viewBox="0 0 24 24"
+          width="14"
+          height="14"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <line x1="5" y1="12" x2="19" y2="12" />
+          <polyline points="12 5 19 12 12 19" />
+        </svg>
+      </a>
+    </div>
+
     <div class="mx-footer-bottom">
       <T k="footer.copyright" as="p" class="mx-footer-copyright" />
       <T k="footer.made_with" as="p" class="mx-footer-made" />
