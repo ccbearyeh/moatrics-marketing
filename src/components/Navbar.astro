@@ -76,7 +76,9 @@ const navLinks = [
           >中</button>
         </div>
 
-        <a class="mx-btn mx-btn-secondary mx-nav-signin" href={`${APP_BASE}/signin`}>
+        {/* App root, not /signin — signin is Streamlit's default page (served at /),
+            so linking to / avoids the transient "Page not found" toast + URL rewrite to /. */}
+        <a class="mx-btn mx-btn-secondary mx-nav-signin" href={`${APP_BASE}/`}>
           <T k="nav.signin" />
         </a>
         <a class="mx-btn mx-btn-primary" href="/get-access">
