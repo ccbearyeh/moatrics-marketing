@@ -918,6 +918,12 @@ const description =
     letter-spacing: -0.6px;
     line-height: 1.1;
     margin: 0;
+    /* Italic glyphs lean right; with background-clip:text the final letter's
+       overhang (e.g. the "r" in "Master Tracker", "l" in "Trade Journal") is
+       clipped at the content-box edge. padding-right extends the paint box so
+       the gradient covers the whole glyph. Em-based → scales with font-size,
+       so the @768px 1.45rem override needs no separate patch. */
+    padding-right: 0.25em;
     background: linear-gradient(135deg, #fbbf24 0%, #c084fc 55%, #a855f7 100%);
     -webkit-background-clip: text;
     background-clip: text;
