@@ -645,7 +645,9 @@ const description =
     letter-spacing: 1.6px;
     text-transform: uppercase;
     color: var(--mx-gold);
-    margin: 0 auto 44px auto;
+    /* 44→28: the gap between the trust line and the CTA was the biggest single
+       contributor to pushing the CTA below the fold. */
+    margin: 0 auto 28px auto;
     max-width: 620px;
     line-height: 1.5;
     opacity: 0.9;
