@@ -83,8 +83,10 @@ const helpfulLinks = [
     border-radius: var(--mx-radius-xl);
     text-align: center;
     /* Hero-style soft radial wash so the card reads as a focal element rather
-       than a flat panel. */
-    background-image:
+       than a flat panel. `background` shorthand with the glass colour as the
+       final comma-layer (mirrors .mx-hero-card) — overrides .mx-glass's flat
+       background while keeping its blur/border/shadow. */
+    background:
       radial-gradient(120% 120% at 50% 0%, rgba(168, 85, 247, 0.10) 0%, transparent 60%),
       var(--mx-glass-bg);
   }
