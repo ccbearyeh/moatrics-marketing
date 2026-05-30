@@ -98,6 +98,12 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   scroll-behavior: smooth;
+  /* Guard against incidental horizontal overflow (a wide child once pushed the
+     page ~144px past the viewport on mobile). `clip` — not `hidden` — is
+     required: paired with the default `overflow-y: visible` it does NOT create
+     a scroll container, so the sticky navbar and position:sticky legal TOC keep
+     working. (`hidden` would compute overflow-y to `auto` and break them.) */
+  overflow-x: clip;
 }
 
 body {
