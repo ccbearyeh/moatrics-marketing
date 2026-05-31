@@ -250,6 +250,7 @@
     },
     "copyright": "© 2026 Moatrics. 版權所有。",
     "disclaimer_short": "Moatrics 為教育性研究平台,內容不構成任何投資建議。投資涉及風險,可能損失本金,請務必獨立判斷與評估。",
+    "read_disclaimer": "閱讀完整免責聲明",
     "made_with": "為耐心的投資人而打造。"
   },
 
@@ -446,6 +447,18 @@
           "p": "使用本服務並不在您與 Moatrics 之間建立任何受託、顧問或律師當事人關係。"
         }
       ]
+    }
+  },
+
+  "errors": {
+    "notfound": {
+      "page_title": "找不到頁面",
+      "description": "您要找的頁面不存在，或可能已經搬移。",
+      "title": "這個頁面不在雷達上",
+      "body": "您要找的頁面不存在，或可能已經搬移。讓我們帶您回到正軌。",
+      "cta_home": "返回首頁",
+      "cta_features": "探索功能",
+      "helpful": "或前往"
     }
   }
 }

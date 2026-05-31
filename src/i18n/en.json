@@ -250,6 +250,7 @@
     },
     "copyright": "© 2026 Moatrics. All rights reserved.",
     "disclaimer_short": "Moatrics is an educational research platform. Nothing on this site constitutes investment advice. Investing involves risk, including possible loss of principal. Always do your own research.",
+    "read_disclaimer": "Read the full disclaimer",
     "made_with": "Built for the patient investor."
   },
 
@@ -446,6 +447,18 @@
           "p": "Using the Service does not create a fiduciary, advisory, or attorney-client relationship between you and Moatrics."
         }
       ]
+    }
+  },
+
+  "errors": {
+    "notfound": {
+      "page_title": "Page Not Found",
+      "description": "The page you're looking for doesn't exist or may have moved.",
+      "title": "This page wandered off the radar.",
+      "body": "The page you're looking for doesn't exist or may have moved. Let's get you back on track.",
+      "cta_home": "Back to home",
+      "cta_features": "Explore features",
+      "helpful": "Or jump to"
     }
   }
 }
